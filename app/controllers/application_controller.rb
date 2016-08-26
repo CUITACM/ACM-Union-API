@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::API
   include Pundit
   attr_accessor :current_user
-  rescue_from Pundit::NotAuthorizedError, with: :deny_access
+  rescue_from Pundit::NotAuthorizedError, with: :deny_access!
 
   def authenticate_user!
     token, options = ActionController::HttpAuthentication::Token.token_and_options(request)
@@ -15,6 +15,16 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def make_response(data=nil, error_code=0, message="", opts = {})
+    ret = { :error_code => error_code }
+    ret[:message] = message unless message.blank?
+    ret[:data] = data unless data.nil?
+    opts.each do |opt, value|
+      ret[opt] = value unless value.blank?
+    end
+    ret
+  end
+
   def api_error(opts = {})
     render :head => :unauthorized, status: opts[:status]
   end
@@ -23,7 +33,7 @@ class ApplicationController < ActionController::API
     api_error(status: 401)
   end
 
-  def deny_access
+  def deny_access!
     api_error(status: 403)
   end
 end

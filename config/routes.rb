@@ -6,8 +6,13 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      # users
       get '/users' => 'users#index'
-      post '/users/:id' => 'users#update'
+      post '/users' => 'users#create'
+      put '/users/:id' => 'users#update'
+
+      # articles
+      get '/articles' => "articles#index"
     end
   end
 
