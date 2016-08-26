@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
   end
 
   def register
-
+    
   end
 
   private

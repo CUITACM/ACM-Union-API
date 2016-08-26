@@ -10,17 +10,93 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160824140132) do
+ActiveRecord::Schema.define(version: 20160826100608) do
+
+  create_table "achievements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name",        null: false
+    t.string   "target",      null: false
+    t.string   "description"
+    t.string   "rank_title"
+    t.integer  "score"
+    t.string   "type"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "title",                                null: false
+    t.text     "content",    limit: 65535,             null: false
+    t.integer  "user_id",                              null: false
+    t.string   "type",                                 null: false
+    t.integer  "status",                               null: false
+    t.integer  "like_times",               default: 0
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.index ["user_id", "title"], name: "index_articles_on_user_id_and_title", unique: true, using: :btree
+  end
+
+  create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id",                             null: false
+    t.string   "user_name",                           null: false
+    t.string   "user_avatar"
+    t.string   "description", limit: 256,             null: false
+    t.integer  "entity_id",                           null: false
+    t.string   "entity_type",                         null: false
+    t.integer  "parent_id"
+    t.integer  "like_times",              default: 0
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["entity_id", "entity_type"], name: "index_comments_on_entity", using: :btree
+    t.index ["parent_id"], name: "index_comments_on_parent_id", using: :btree
+  end
+
+  create_table "honors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "contest_name",  null: false
+    t.integer  "content_level", null: false
+    t.string   "description"
+    t.string   "team_name"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "resources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "filename",                    null: false
+    t.string   "usage",                       null: false
+    t.string   "description"
+    t.boolean  "auth",        default: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name",        null: false
+    t.integer  "entity_id",   null: false
+    t.string   "entity_type", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["entity_id", "entity_type"], name: "index_tags_on_entity", using: :btree
+  end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email"
-    t.string   "name"
-    t.string   "nickname"
+    t.string   "name",                           null: false
+    t.string   "nickname",                       null: false
     t.boolean  "gender"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.string   "access_token"
     t.string   "password_digest"
+    t.string   "avatar"
+    t.integer  "role"
+    t.string   "stu_id"
+    t.boolean  "active",          default: true
+    t.string   "phone"
+    t.string   "school"
+    t.string   "college"
+    t.string   "major"
+    t.string   "grade"
+    t.index ["name"], name: "index_users_on_name", using: :btree
+    t.index ["nickname"], name: "index_users_on_nickname", unique: true, using: :btree
   end
 
 end
