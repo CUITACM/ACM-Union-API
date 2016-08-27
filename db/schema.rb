@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160826100608) do
+ActiveRecord::Schema.define(version: 20160827072709) do
 
   create_table "achievements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",        null: false
@@ -21,6 +21,15 @@ ActiveRecord::Schema.define(version: 20160826100608) do
     t.string   "type"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "article_tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "article_id"
+    t.integer  "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_article_tags_on_article_id", using: :btree
+    t.index ["tag_id"], name: "index_article_tags_on_tag_id", using: :btree
   end
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -36,17 +45,17 @@ ActiveRecord::Schema.define(version: 20160826100608) do
   end
 
   create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "user_id",                             null: false
-    t.string   "user_name",                           null: false
+    t.integer  "user_id",                                  null: false
+    t.string   "user_name",                                null: false
     t.string   "user_avatar"
-    t.string   "description", limit: 256,             null: false
-    t.integer  "entity_id",                           null: false
-    t.string   "entity_type",                         null: false
+    t.string   "description",      limit: 256,             null: false
+    t.integer  "commentable_id",                           null: false
+    t.string   "commentable_type",                         null: false
     t.integer  "parent_id"
-    t.integer  "like_times",              default: 0
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.index ["entity_id", "entity_type"], name: "index_comments_on_entity", using: :btree
+    t.integer  "like_times",                   default: 0
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.index ["commentable_id", "commentable_type"], name: "index_comments_on_commentable", using: :btree
     t.index ["parent_id"], name: "index_comments_on_parent_id", using: :btree
   end
 
@@ -69,12 +78,9 @@ ActiveRecord::Schema.define(version: 20160826100608) do
   end
 
   create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name",        null: false
-    t.integer  "entity_id",   null: false
-    t.string   "entity_type", null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["entity_id", "entity_type"], name: "index_tags_on_entity", using: :btree
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

@@ -2,31 +2,30 @@ class ApplicationController < ActionController::API
   include Pundit
   attr_accessor :current_user
   rescue_from Pundit::NotAuthorizedError, with: :deny_access!
+  before_action :authenticate_user
 
-  def authenticate_user!
-    token, options = ActionController::HttpAuthentication::Token.token_and_options(request)
-    email = options.blank? ? nil : options[:email]
-    user = email && User.find_by(email: email)
+  def authenticate_user
+    token, _ = ActionController::HttpAuthentication::Token.token_and_options(request)
+    unauthenticated! if token.nil?
 
-    if user && ActiveSupport::SecurityUtils.secure_compare(user.access_token, token)
-      self.current_user = user
-    else
+    self.current_user |= User.find_by(access_token: token)
+    if self.current_user.nil?
       unauthenticated!
     end
   end
 
-  def make_response(data=nil, error_code=0, message="", opts = {})
-    ret = { :error_code => error_code }
-    ret[:message] = message unless message.blank?
-    ret[:data] = data unless data.nil?
-    opts.each do |opt, value|
-      ret[opt] = value unless value.blank?
-    end
-    ret
+  def meta_with_page(resource, extra_meta = {})
+    {
+        current_page: resource.current_page,
+        next_page: resource.next_page,
+        prev_page: resource.prev_page,
+        total_pages: resource.total_pages,
+        total_count: resource.total_count
+    }.merge(extra_meta)
   end
 
   def api_error(opts = {})
-    render :head => :unauthorized, status: opts[:status]
+    render :head => :unauthorized, :status => opts[:status]
   end
 
   def unauthenticated!

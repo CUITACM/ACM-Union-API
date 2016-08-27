@@ -1,7 +1,4 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :name, :nickname, :token
+  attributes :id, :email, :name, :nickname, :gender, :avatar
 
-  def token
-    object.access_token
-  end
 end

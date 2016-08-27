@@ -1,24 +1,44 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :authenticate_user!, only: [:update]
 
   def index
-    render :json => make_response(User.all)
+    @users = User.page(params[:page] || 1)
+    render :json => @users,
+           :meta => meta_with_page(@users)
+  end
+
+  def show
+    @user = User.find(params[:id])
+    render :json => @user
   end
 
   def create
-    User.create!(create_params)
+    @user = User.new
+    @user.assign_attributes(create_params)
+    if @user.save
+      render :json => @user
+    else
+      render :json => { :error_code => 1 }
+    end
   end
 
   def update
     @user = User.find(params[:id])
-    if @user.update!(update_params)
-      render :json => make_response(@user)
+    if @user.update(update_params)
+      render :json => @user
     else
-      render :json => make_response(nil, 1)
+      render :json => { :error_code => 1 }
     end
   end
 
-  private
+  def destroy
+    @user = User.find(params[:id])
+    if @user.destroy
+      render :json => { :error_code => 0 }
+    else
+      render :json => { :error_code => 1 }
+    end
+  end
+
   def create_params
     params.permit(:name, :password)
   end
@@ -26,4 +46,6 @@ class Api::V1::UsersController < ApplicationController
   def update_params
     params.permit(:name)
   end
+
+  private :create_params, :update_params
 end

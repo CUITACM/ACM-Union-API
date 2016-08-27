@@ -1,6 +1,8 @@
 class User < ApplicationRecord
-  before_create :generate_access_token
+  has_many :articles
+
   has_secure_password
+  before_create :generate_access_token
 
   def generate_access_token
     loop do
