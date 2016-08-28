@@ -7,18 +7,18 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       # users
-      get '/users' => 'users#index'
-      get '/users/:id' => 'users#show'
-      post '/users' => 'users#create'
-      put '/users/:id' => 'users#update'
-      delete '/users/:id' => 'users#destroy'
+      get     '/users',         to: 'users#index'
+      get     '/users/:id',     to: 'users#show'
+      post    '/users',         to: 'users#create'
+      put     '/users/:id',     to: 'users#update'
+      delete  '/users/:id',     to: 'users#destroy'
 
       # articles
-      get '/articles' => "articles#index"
-      get '/articles/:id' => 'articles#show'
-      post '/articles' => 'articles#create'
-      put '/articles/:id' => 'articles#update'
-      delete '/articles/:id' => 'articles#destroy'
+      get     '/articles',      to: "articles#index"
+      get     '/articles/:id',  to: 'articles#show'
+      post    '/articles',      to: 'articles#create'
+      put     '/articles/:id',  to: 'articles#update'
+      delete  '/articles/:id',  to: 'articles#destroy'
     end
   end
 
