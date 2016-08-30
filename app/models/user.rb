@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   has_many :articles
 
+  mount_uploader :avatar, AvatarUploader
+
   has_secure_password
   before_create :generate_access_token
 
