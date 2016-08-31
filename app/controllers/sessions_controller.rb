@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
     @user = User.find_by(nickname: login_params[:nickname])
     if @user && @user.authenticate(login_params[:password])
       self.current_user = @user
-      render :json => current_user, :serializer => SessionSerializer
+      render json: current_user, serializer: SessionSerializer
     else
       unauthenticated!
     end

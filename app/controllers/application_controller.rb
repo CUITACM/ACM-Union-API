@@ -25,7 +25,7 @@ class ApplicationController < ActionController::API
   end
 
   def api_error(opts = {})
-    render :head => :unauthorized, :status => opts[:status]
+    render head: :unauthorized, status: opts[:status]
   end
 
   def unauthenticated!
