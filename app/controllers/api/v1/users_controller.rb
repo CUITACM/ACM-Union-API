@@ -1,7 +1,8 @@
 class Api::V1::UsersController < ApplicationController
 
   def index
-    @users = User.page(params[:page] || 1)
+    @users = User.ant_sort(params)
+    @users = @users.page(params[:page] || 1).per(params[:per])
     render json: @users, meta: meta_with_page(@users)
   end
 
@@ -25,7 +26,7 @@ class Api::V1::UsersController < ApplicationController
     if @user.update(update_params)
       render json: @user
     else
-      render json: { :error_code: 1 }
+      render json: { error_code: 1 }
     end
   end
 

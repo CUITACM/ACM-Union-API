@@ -8,7 +8,7 @@ class ApplicationController < ActionController::API
     token, _ = ActionController::HttpAuthentication::Token.token_and_options(request)
     unauthenticated! if token.nil?
 
-    self.current_user |= User.find_by(access_token: token)
+    self.current_user ||= User.find_by(access_token: token)
     if self.current_user.nil?
       unauthenticated!
     end

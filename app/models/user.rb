@@ -5,15 +5,10 @@ class User < ApplicationRecord
   mount_uploader :avatar, AvatarUploader
   before_create :generate_access_token
 
-  ACTIVE_STATUS = {
-    applying: 0,
-    training: 1,
-    retired: 2
-  }
+  STATUS_APPLY = 0    # 申请
+  STATUS_TRAIN = 1    # 训练
+  STATUS_RETIRE = 2   # 退役
 
-  scope :applying, -> { where(active: ACTIVE_STATUS[:applying]) }
-  scope :training, -> { where(active: ACTIVE_STATUS[:training]) }
-  scope :retired, -> { where(active: ACTIVE_STATUS[:retired]) }
   scope :admin, -> { where("role >= 4") }
 
   def generate_access_token

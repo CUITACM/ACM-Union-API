@@ -12,7 +12,13 @@ class SessionsController < ApplicationController
   end
 
   def register
-    
+    @user = User.new
+    @user.assign_attributes(register_params)
+    if @user.save
+      render json: @user
+    else
+      render json: { error_code: 1 }
+    end
   end
 
   def login_params
@@ -20,7 +26,7 @@ class SessionsController < ApplicationController
   end
 
   def register_params
-    params.permit(:email, :password)
+    params.permit(:bickname, :password)
   end
 
   private :login_params, :register_params
