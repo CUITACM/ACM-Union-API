@@ -2,7 +2,9 @@ class SessionsController < ApplicationController
   skip_before_action :authenticate_user
 
   def login
-    @user = User.find_by(nickname: login_params[:nickname])
+    identification = login_params[:nickname]
+    @user = User.find_by('nickname = ? OR email = ? OR stu_id = ?',
+                         identification, identification, identification)
     if @user && @user.authenticate(login_params[:password])
       self.current_user = @user
       render json: current_user, serializer: SessionSerializer

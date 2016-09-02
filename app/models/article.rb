@@ -7,8 +7,8 @@ class Article < ApplicationRecord
   TYPE_NEWS = 'News'
   TYPE_SOLUTION = 'Solution'
 
-  scope :news, -> { where(:type => TYPE_NEWS) }
-  scope :solution, -> { where(:type => TYPE_SOLUTION) }
+  scope :news, -> { where(:article_type => TYPE_NEWS) }
+  scope :solution, -> { where(:article_type => TYPE_SOLUTION) }
 
   STATUS_DRAFT = 0    # 草稿
   STATUS_PUBLISH = 1  # 发布

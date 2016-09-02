@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160831030348) do
+ActiveRecord::Schema.define(version: 20160902151744) do
 
   create_table "achievements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",        null: false
@@ -33,14 +33,14 @@ ActiveRecord::Schema.define(version: 20160831030348) do
   end
 
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "title",                                null: false
-    t.text     "content",    limit: 65535,             null: false
-    t.integer  "user_id",                              null: false
-    t.string   "type",                                 null: false
-    t.integer  "status",                               null: false
-    t.integer  "like_times",               default: 0
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.string   "title",                                  null: false
+    t.text     "content",      limit: 65535,             null: false
+    t.integer  "user_id",                                null: false
+    t.string   "article_type",                           null: false
+    t.integer  "status",                                 null: false
+    t.integer  "like_times",                 default: 0
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.index ["user_id", "title"], name: "index_articles_on_user_id_and_title", unique: true, using: :btree
   end
 
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(version: 20160831030348) do
     t.string   "major"
     t.string   "grade"
     t.string   "description"
+    t.string   "situation"
     t.index ["name"], name: "index_users_on_name", using: :btree
     t.index ["nickname"], name: "index_users_on_nickname", unique: true, using: :btree
   end
