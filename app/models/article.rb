@@ -10,8 +10,10 @@ class Article < ApplicationRecord
   scope :news, -> { where(:article_type => TYPE_NEWS) }
   scope :solution, -> { where(:article_type => TYPE_SOLUTION) }
 
-  STATUS_DRAFT = 0    # 草稿
-  STATUS_PUBLISH = 1  # 发布
-  STATUS_RECYCLE = 2  # 回收站
+  STATUS_RECYCLE = 0  # 回收站
+  STATUS_DRAFT = 1    # 草稿
+  STATUS_PUBLISH = 2  # 发布
+  STATUS_PINNED = 3   # 置顶
+
 
 end
