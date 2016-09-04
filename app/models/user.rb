@@ -1,15 +1,23 @@
 class User < ApplicationRecord
+  # concern & mixin
+  include Searchable
+  SEARCH_COLUMNS << :name << :nickname << :email
   has_secure_password
-
-  has_many :articles
   mount_uploader :avatar, AvatarUploader
-  before_create :generate_access_token
 
+  # relations
+  has_many :articles
+
+  # User status def
   STATUS_APPLY = 0    # 申请
   STATUS_TRAIN = 1    # 训练
   STATUS_RETIRE = 2   # 退役
 
+  # scope
   scope :admin, -> { where("role >= 4") }
+
+  # models callback
+  before_create :generate_access_token
 
   def generate_access_token
     loop do

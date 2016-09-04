@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160902151744) do
+ActiveRecord::Schema.define(version: 20160904162113) do
+
+  create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "nickname",                   null: false
+    t.string   "password_digest"
+    t.integer  "solved"
+    t.integer  "submitted"
+    t.integer  "status"
+    t.string   "oj_name",         limit: 32
+    t.integer  "user_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
 
   create_table "achievements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",        null: false
@@ -77,6 +89,23 @@ ActiveRecord::Schema.define(version: 20160902151744) do
     t.datetime "updated_at",                  null: false
   end
 
+  create_table "submits", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "pro_id",       limit: 32
+    t.string   "run_id",       limit: 32
+    t.integer  "run_time"
+    t.integer  "memory"
+    t.string   "lang",         limit: 32
+    t.string   "result",       limit: 32
+    t.text     "code",         limit: 65535
+    t.datetime "submitted_at"
+    t.integer  "status"
+    t.integer  "user_id"
+    t.string   "user_name"
+    t.string   "oj_name",      limit: 32
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
   create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",       null: false
     t.datetime "created_at", null: false
@@ -95,7 +124,7 @@ ActiveRecord::Schema.define(version: 20160902151744) do
     t.string   "avatar"
     t.integer  "role"
     t.string   "stu_id"
-    t.integer  "active",          default: 0
+    t.integer  "status",          default: 0
     t.string   "phone"
     t.string   "school"
     t.string   "college"

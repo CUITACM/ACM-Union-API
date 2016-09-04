@@ -28,7 +28,7 @@ class SessionsController < ApplicationController
   end
 
   def register_params
-    params.permit(:bickname, :password)
+    params.permit(:nickname, :password)
   end
 
   private :login_params, :register_params
