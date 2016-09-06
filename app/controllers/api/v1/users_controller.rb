@@ -40,11 +40,13 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def create_params
-    params.permit(:name, :password)
+    params.permit(:name, :nickname, :gender, :avatar, :role, :stu_id, :status, :email, :phone,
+                  :school, :college, :major, :grade, :description, :situation)
   end
 
   def update_params
-    params.permit(:name)
+    params.permit(:name, :nickname, :gender, :avatar, :role, :stu_id, :status, :email, :phone,
+                  :school, :college, :major, :grade, :description, :situation)
   end
 
   private :create_params, :update_params

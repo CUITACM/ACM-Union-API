@@ -6,3 +6,6 @@ ACM 水表系统 2.0
 ### 技术栈
 * Ruby 2.3
 * Rails 5
+* ActiveModel Serializers
+* Kaminari
+* CarrierWave

@@ -1,7 +1,11 @@
 class SessionSerializer < ActiveModel::Serializer
-  attributes :id, :name, :nickname, :avatar, :gender, :stu_id
+  attributes :id, :name, :nickname, :gender, :stu_id
   attributes :email, :phone, :school, :college, :major, :grade
-  attributes :role, :active, :token
+  attributes :role, :status, :token
+
+  attribute :avatar do
+    object.avatar.url
+  end
 
   def token
     object.access_token
