@@ -1,7 +1,7 @@
 class Api::V1::ArticlesController < ApplicationController
 
   def index
-    @articles = Article.ant_sort(params).with_search(params)
+    @articles = Article.ant_sort(params).with_search(params).order(created_at: :desc)
     @articles = @articles.page(params[:page] || 1).per(params[:per])
                     .includes(:user)
     render json: @articles, meta: meta_with_page(@articles)
@@ -14,9 +14,10 @@ class Api::V1::ArticlesController < ApplicationController
 
   def create
     @article = Article.new
-    @article.assign_attributes(create_params)
+    @article.assign_attributes(article_params)
+    @article.user_id = current_user.id
     if @article.save
-      render json: @article
+      render json: { error_code: 0 }
     else
       render json: { error_code: 1 }
     end
@@ -24,7 +25,7 @@ class Api::V1::ArticlesController < ApplicationController
 
   def update
     @article = Article.find(params[:id])
-    if @article.update(update_params)
+    if @article.update(article_params)
       render json: @article
     else
       render json: { error_code: 1 }
@@ -40,13 +41,9 @@ class Api::V1::ArticlesController < ApplicationController
     end
   end
 
-  def create_params
-    params.permit(:title)
+  def article_params
+    params.permit(:title, :content, :status, :article_type)
   end
 
-  def update_params
-    params.permit(:title)
-  end
-
-  private :create_params, :update_params
+  private :article_params
 end

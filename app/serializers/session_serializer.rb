@@ -10,4 +10,8 @@ class SessionSerializer < ActiveModel::Serializer
   def token
     object.access_token
   end
+
+  attribute :timestamp do
+    DateTime.now.to_i
+  end
 end

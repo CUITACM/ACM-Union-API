@@ -13,7 +13,7 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     @user = User.new
-    @user.assign_attributes(create_params)
+    @user.assign_attributes(user_params)
     if @user.save
       render json: @user
     else
@@ -23,7 +23,7 @@ class Api::V1::UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if @user.update(update_params)
+    if @user.update(user_params)
       render json: @user
     else
       render json: { error_code: 1 }
@@ -39,15 +39,10 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  def create_params
+  def user_params
     params.permit(:name, :nickname, :gender, :avatar, :role, :stu_id, :status, :email, :phone,
                   :school, :college, :major, :grade, :description, :situation)
   end
 
-  def update_params
-    params.permit(:name, :nickname, :gender, :avatar, :role, :stu_id, :status, :email, :phone,
-                  :school, :college, :major, :grade, :description, :situation)
-  end
-
-  private :create_params, :update_params
+  private :user_params
 end
