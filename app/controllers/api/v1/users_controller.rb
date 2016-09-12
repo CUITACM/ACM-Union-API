@@ -1,7 +1,7 @@
 class Api::V1::UsersController < ApplicationController
 
   def index
-    @users = User.ant_sort(params).with_search(params)
+    @users = User.with_sort(params).with_search(params)
     @users = @users.page(params[:page] || 1).per(params[:per])
     render json: @users, meta: meta_with_page(@users)
   end
