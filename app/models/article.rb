@@ -2,7 +2,7 @@ class Article < ApplicationRecord
   # concern
   include Commentable
   include Searchable
-  SEARCH_COLUMNS << :title << :content
+  SEARCH_COLUMNS = [:title, :content]
 
   # relations
   belongs_to :user

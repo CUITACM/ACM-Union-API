@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   # concern & mixin
   include Searchable
-  SEARCH_COLUMNS << :name << :nickname << :email
+  SEARCH_COLUMNS = [:name, :nickname, :email]
   has_secure_password
   mount_uploader :avatar, AvatarUploader
 

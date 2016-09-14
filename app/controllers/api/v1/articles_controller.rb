@@ -1,7 +1,7 @@
 class Api::V1::ArticlesController < ApplicationController
 
   def index
-    @articles = Article.ant_sort(params).with_search(params).order(created_at: :desc)
+    @articles = Article.with_sort(params).with_search(params).with_filters(params)
     @articles = @articles.page(params[:page] || 1).per(params[:per])
                     .includes(:user)
     render json: @articles, meta: meta_with_page(@articles)
