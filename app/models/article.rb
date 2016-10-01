@@ -1,8 +1,6 @@
 class Article < ApplicationRecord
   # concern
   include Commentable
-  include Searchable
-  SEARCH_COLUMNS = [:title, :content]
 
   # relations
   belongs_to :user
@@ -22,5 +20,19 @@ class Article < ApplicationRecord
   # scope
   scope :news, -> { where(:article_type => TYPE_NEWS) }
   scope :solution, -> { where(:article_type => TYPE_SOLUTION) }
+
+  def self.search_columns
+    [:title, :content]
+  end
+
+  def update_with_tags(tags, args)
+    new_tags = tags.map do |v|
+      tag = Tag.find_by(name: v) || Tag.create(name: v)
+      tag
+    end
+    puts new_tags
+    self.tags = new_tags
+    self.update_attributes(args)
+  end
 
 end

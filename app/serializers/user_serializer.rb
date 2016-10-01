@@ -4,7 +4,10 @@ class UserSerializer < ActiveModel::Serializer
   attributes :role, :status, :description, :situation
 
   attribute :avatar do
-    object.avatar.url
+    {
+        origin: object.avatar.url,
+        thumb: object.avatar.thumb.url
+    }
   end
 
   attribute :created_at do

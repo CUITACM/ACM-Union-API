@@ -4,7 +4,10 @@ class SessionSerializer < ActiveModel::Serializer
   attributes :role, :status, :token
 
   attribute :avatar do
-    object.avatar.url
+    {
+        origin: object.avatar.url,
+        thumb: object.avatar.thumb.url
+    }
   end
 
   def token

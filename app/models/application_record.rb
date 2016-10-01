@@ -2,7 +2,7 @@ class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
   def self.with_sort(params)
-    if params[:sort_field]
+    if !params[:sort_field].blank?
       sort_order = params[:sort_order] == 'ascend' ? 'asc' : 'desc'
       self.order("#{params[:sort_field]} #{sort_order}")
     else
@@ -11,8 +11,8 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def self.with_search(params)
-    if params[:search] && !params[:search].blank?
-      self.where(SEARCH_COLUMNS.collect { |key|
+    if !params[:search].blank?
+      self.where(search_columns.collect { |key|
         "#{key} LIKE '%#{params[:search]}%'"
       }.join(' OR '))
     else

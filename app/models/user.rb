@@ -1,7 +1,5 @@
 class User < ApplicationRecord
   # concern & mixin
-  include Searchable
-  SEARCH_COLUMNS = [:name, :nickname, :email]
   has_secure_password
   mount_uploader :avatar, AvatarUploader
 
@@ -18,6 +16,10 @@ class User < ApplicationRecord
 
   # models callback
   before_create :generate_access_token
+
+  def search_columns
+    [:name, :nickname, :email]
+  end
 
   def generate_access_token
     loop do

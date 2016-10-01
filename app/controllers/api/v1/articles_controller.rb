@@ -1,9 +1,9 @@
 class Api::V1::ArticlesController < ApplicationController
 
   def index
-    @articles = Article.with_sort(params).with_search(params).with_filters(params)
+    @articles = Article.with_search(params).with_filters(params).with_sort(params)
     @articles = @articles.page(params[:page] || 1).per(params[:per])
-                    .includes(:user)
+                    .includes(:user, :tags)
     render json: @articles, meta: meta_with_page(@articles)
   end
 
@@ -25,7 +25,7 @@ class Api::V1::ArticlesController < ApplicationController
 
   def update
     @article = Article.find(params[:id])
-    if @article.update(article_params)
+    if @article.update_with_tags(params[:tags], article_params)
       render json: @article
     else
       render json: { error_code: 1 }

@@ -13,4 +13,8 @@ class ArticleSerializer < ActiveModel::Serializer
     }
   end
 
+  has_many :tags do
+    object.tags.map { |tag| tag.name }
+  end
+
 end
