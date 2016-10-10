@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160915143258) do
+ActiveRecord::Schema.define(version: 20161010153025) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "nickname",                   null: false
@@ -114,8 +114,22 @@ ActiveRecord::Schema.define(version: 20160915143258) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "user_infos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email"
+    t.string   "stu_id"
+    t.string   "phone"
+    t.string   "school"
+    t.string   "college"
+    t.string   "major"
+    t.string   "grade"
+    t.string   "situation"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_infos_on_user_id", using: :btree
+  end
+
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",                        null: false
     t.string   "nickname",                    null: false
     t.boolean  "gender"
@@ -125,15 +139,8 @@ ActiveRecord::Schema.define(version: 20160915143258) do
     t.string   "password_digest"
     t.string   "avatar"
     t.integer  "role"
-    t.string   "stu_id"
     t.integer  "status",          default: 0
-    t.string   "phone"
-    t.string   "school"
-    t.string   "college"
-    t.string   "major"
-    t.string   "grade"
     t.string   "description"
-    t.string   "situation"
     t.index ["name"], name: "index_users_on_name", using: :btree
     t.index ["nickname"], name: "index_users_on_nickname", unique: true, using: :btree
   end

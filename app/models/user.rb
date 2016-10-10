@@ -4,6 +4,7 @@ class User < ApplicationRecord
   mount_uploader :avatar, AvatarUploader
 
   # relations
+  has_one :user_info, dependent: :destroy
   has_many :articles
 
   # User status def
@@ -32,4 +33,19 @@ class User < ApplicationRecord
     generate_access_token
     save
   end
+
+  def update_user_info(params)
+    @user_info = self.user_info
+    if @user_info.blank?
+      @user_info = self.build_user_info
+    end
+    filter_params = params.permit!.slice(
+        :email, :stu_id, :phone, :school, :college,
+        :major, :grade, :situation
+    )
+    p filter_params.inspect
+    @user_info.assign_attributes(filter_params)
+    @user_info.save
+  end
+
 end

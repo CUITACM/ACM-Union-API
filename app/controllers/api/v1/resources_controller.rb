@@ -2,7 +2,7 @@ class Api::V1::ResourcesController < ApplicationController
 
   def index
     @resources = Resource.page(params[:page] || 1)
-    render json: @resources, meta: meta_with_page(@resources)
+    render json: @resources, root: 'items', meta: meta_with_page(@resources)
   end
 
   def show
@@ -16,6 +16,7 @@ class Api::V1::ResourcesController < ApplicationController
     end
     @resource = Resource.new
     @resource.assign_attributes(resource_params)
+    @resource.owner = current_user.id
     if @resource.save
       render json: {
           error_code: 0,
@@ -26,10 +27,10 @@ class Api::V1::ResourcesController < ApplicationController
     end
   end
 
-  def update
+  def destroy
     @resource = Resource.find(params[:id])
-    if @resource.update(resource_params)
-      render json: @resource
+    if @resource.destroy
+      render json: { error_code: 0 }
     else
       render json: { error_code: 1 }
     end

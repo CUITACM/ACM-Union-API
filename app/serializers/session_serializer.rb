@@ -1,6 +1,5 @@
 class SessionSerializer < ActiveModel::Serializer
-  attributes :id, :name, :nickname, :gender, :stu_id
-  attributes :email, :phone, :school, :college, :major, :grade
+  attributes :id, :name, :nickname, :gender, :description
   attributes :role, :status, :token
 
   attribute :avatar do
@@ -16,5 +15,9 @@ class SessionSerializer < ActiveModel::Serializer
 
   attribute :timestamp do
     DateTime.now.to_i
+  end
+
+  has_one :user_info do
+    object.user_info
   end
 end

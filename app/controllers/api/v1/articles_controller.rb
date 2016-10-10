@@ -4,7 +4,7 @@ class Api::V1::ArticlesController < ApplicationController
     @articles = Article.with_search(params).with_filters(params).with_sort(params)
     @articles = @articles.page(params[:page] || 1).per(params[:per])
                     .includes(:user, :tags)
-    render json: @articles, meta: meta_with_page(@articles)
+    render json: @articles, root: 'items', meta: meta_with_page(@articles)
   end
 
   def show

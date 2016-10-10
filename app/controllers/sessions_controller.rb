@@ -3,8 +3,12 @@ class SessionsController < ApplicationController
 
   def login
     identification = login_params[:nickname]
-    @user = User.find_by('nickname = ? OR email = ? OR stu_id = ?',
-                         identification, identification, identification)
+    @user = User.find_by(nickname: identification)
+    if @user.blank?
+      user_info = UserInfo.find_by("email = ? OR stu_id = ?",
+                                    identification, identification)
+      @user = user_info.user if user_info.present?
+    end
     if @user && @user.authenticate(login_params[:password])
       self.current_user = @user
       render json: current_user, serializer: SessionSerializer

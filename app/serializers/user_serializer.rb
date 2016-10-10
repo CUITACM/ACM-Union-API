@@ -1,7 +1,6 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :name, :nickname, :gender, :stu_id
-  attributes :email, :phone, :school, :college, :major, :grade
-  attributes :role, :status, :description, :situation
+  attributes :id, :name, :nickname, :gender, :description
+  attributes :role, :status
 
   attribute :avatar do
     {
@@ -16,6 +15,10 @@ class UserSerializer < ActiveModel::Serializer
 
   attribute :updated_at do
     object.updated_at.to_i
+  end
+
+  has_one :user_info do
+    object.user_info
   end
 
 end
