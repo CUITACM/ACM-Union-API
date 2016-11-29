@@ -8,30 +8,20 @@ class User < ApplicationRecord
   has_many :articles
 
   # User status def
-  STATUS_APPLY = 0    # 申请
-  STATUS_TRAIN = 1    # 训练
+  STATUS_REJECT = -1
+  STATUS_APPLY  = 0    # 申请
+  STATUS_TRAIN  = 1    # 训练
   STATUS_RETIRE = 2   # 退役
 
   # scope
   scope :admin, -> { where("role >= 4") }
 
-  # models callback
-  before_create :generate_access_token
-
   def search_columns
     [:name, :nickname, :email]
   end
 
-  def generate_access_token
-    loop do
-      self.access_token = SecureRandom.base64(64)
-      break unless User.find_by(:access_token => access_token)
-    end
-  end
-
-  def reset_access_token
-    generate_access_token
-    save
+  def token
+    JsonWebToken.encode(user_id: self.id)
   end
 
   def update_user_info(params)

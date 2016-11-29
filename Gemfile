@@ -40,3 +40,6 @@ gem 'pundit'
 gem 'kaminari'
 gem 'carrierwave'
 gem 'mini_magick'
+gem 'jwt'
+gem "lograge"
+gem 'by_star', git: "git://github.com/radar/by_star"

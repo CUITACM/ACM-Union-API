@@ -8,22 +8,19 @@
 if User.count == 0
     users = User.create([
         {
-            email: 'rayn1027@outlook.com',
-            name: '彭潇',
+            display_name: '彭潇',
             nickname: 'Rayn',
             gender: true,
             password: '123456'
         },
         {
-            email: 'rayn1027@outlook.com',
-            name: '文欣',
+            display_name: '文欣',
             nickname: 'Chobi15',
             gender: true,
             password: '123456'
         },
         {
-            email: 'rayn1027@outlook.com',
-            name: '黄坤',
+            display_name: '黄坤',
             nickname: 'Calmeii',
             gender: true,
             password: '123456'

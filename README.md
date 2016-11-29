@@ -1,6 +1,6 @@
-# ACM-Meter
+# ACM-Union-API
 
-ACM 水表系统 2.0
+ACM 校队综合平台 统一接口
 > 1.0 [代码地址](https://github.com/Raynxxx/CUIT-ACM-Website)
 
 ### 技术栈
@@ -9,3 +9,4 @@ ACM 水表系统 2.0
 * ActiveModel Serializers
 * Kaminari
 * CarrierWave
+* JsonWebToken (JWT)

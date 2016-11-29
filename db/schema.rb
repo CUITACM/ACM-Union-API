@@ -13,26 +13,26 @@
 ActiveRecord::Schema.define(version: 20161010153025) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "nickname",                   null: false
-    t.string   "password_digest"
+    t.string   "nickname",                     null: false
+    t.string   "password_digest", limit: 1024
     t.integer  "solved"
     t.integer  "submitted"
     t.integer  "status"
     t.string   "oj_name",         limit: 32
     t.integer  "user_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
   create_table "achievements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name",        null: false
-    t.string   "target",      null: false
+    t.string   "name",             null: false
+    t.string   "target",           null: false
     t.string   "description"
-    t.string   "rank_title"
     t.integer  "score"
-    t.string   "type"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "achievement_type"
+    t.integer  "parent_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "article_tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -47,10 +47,10 @@ ActiveRecord::Schema.define(version: 20161010153025) do
   create_table "articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title",                                  null: false
     t.text     "content",      limit: 65535,             null: false
-    t.integer  "user_id",                                null: false
     t.string   "article_type",                           null: false
     t.integer  "status",                                 null: false
     t.integer  "like_times",                 default: 0
+    t.integer  "user_id",                                null: false
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
     t.index ["user_id", "title"], name: "index_articles_on_user_id_and_title", unique: true, using: :btree
@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20161010153025) do
     t.integer  "user_id",                                  null: false
     t.string   "user_name",                                null: false
     t.string   "user_avatar"
-    t.string   "description",      limit: 256,             null: false
+    t.string   "description",      limit: 512,             null: false
     t.integer  "commentable_id",                           null: false
     t.string   "commentable_type",                         null: false
     t.integer  "parent_id"
@@ -81,14 +81,14 @@ ActiveRecord::Schema.define(version: 20161010153025) do
   end
 
   create_table "resources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "filename",                    null: false
-    t.string   "usage",                       null: false
+    t.string   "path"
+    t.string   "filename",                null: false
+    t.string   "usage",                   null: false
     t.string   "description"
-    t.boolean  "auth",        default: false
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.string   "file"
-    t.integer  "owner"
+    t.integer  "auth",        default: 0
+    t.integer  "owner_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "submits", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -130,18 +130,17 @@ ActiveRecord::Schema.define(version: 20161010153025) do
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name",                        null: false
-    t.string   "nickname",                    null: false
+    t.string   "nickname",                                 null: false
+    t.string   "display_name",                             null: false
+    t.string   "password_digest", limit: 1024
     t.boolean  "gender"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.string   "access_token"
-    t.string   "password_digest"
     t.string   "avatar"
     t.integer  "role"
-    t.integer  "status",          default: 0
-    t.string   "description"
-    t.index ["name"], name: "index_users_on_name", using: :btree
+    t.integer  "status",                       default: 0
+    t.string   "description",     limit: 1024
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.index ["display_name"], name: "index_users_on_display_name", using: :btree
     t.index ["nickname"], name: "index_users_on_nickname", unique: true, using: :btree
   end
 
