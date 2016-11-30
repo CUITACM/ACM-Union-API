@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  get '/api/auth/login',  to: 'authentication#login'
-
   namespace :api do
     namespace :v1 do
+      # auth
+      get     '/auth/token',      to: 'auth#token'
+
       # users
       get     '/users',           to: 'users#index'
       get     '/users/:id',       to: 'users#show'
@@ -24,6 +25,10 @@ Rails.application.routes.draw do
       get     '/resources/:id',   to: 'resources#show'
       post    '/resources',       to: 'resources#create'
       delete  '/resources/:id',   to: 'resources#destroy'
+
+      # spiders
+      get     '/spiders/accounts',  to: 'spiders#accounts'
+      post    '/spiders/accounts',  to: 'spiders#create_account'
     end
   end
 

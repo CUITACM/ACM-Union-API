@@ -1,8 +1,8 @@
-class AuthenticationController < ApplicationController
+class Api::V1::AuthController < ApplicationController
 
   skip_before_action :authenticate_user
 
-  def login
+  def token
     ident = login_params[:nickname]
     api_error! and return if ident.blank?
 

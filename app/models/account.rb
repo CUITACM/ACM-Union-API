@@ -1,15 +1,34 @@
 class Account < ApplicationRecord
 
-  def set_password(pwd)
+  validates :nickname, :oj_name, :user_id,
+            presence: true, on: [:create]
+
+  # constants
+  STATUS_NOT_INIT = 0
+  STATUS_NORMAL = 1
+  STATUS_QUEUE = 2
+  STATUS_UPDATING = 3
+  STATUS_UPDATE_ERROR = 4
+  STATUS_ACCOUNT_ERROR = 5
+  STATUS_RESET = 100
+
+  before_create do
+    self.solved = self.submitted = 0
+    self.status = STATUS_NOT_INIT
+  end
+
+  def password=(pwd)
     self.password_digest = Account.encrypt_password(pwd)
   end
 
-  def self.encrypt_password(pwd)
-    ActiveSupport::Base64.encode64(pwd)
-  end
+  class << self
+    def encrypt_password(pwd)
+      Base64.strict_encode64(pwd)
+    end
 
-  def self.decrypt_password(pwd)
-    ActiveSupport::Base64.decode64(pwd)
+    def decrypt_password(pwd)
+      Base64.strict_decode64(pwd)
+    end
   end
 
 end
