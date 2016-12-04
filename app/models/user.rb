@@ -14,14 +14,14 @@ class User < ApplicationRecord
   STATUS_RETIRE = 2   # 退役
 
   # scope
-  scope :admin, -> { where("role >= 4") }
+  scope :admin, -> { where('role >= 4') }
 
   def search_columns
     [:name, :nickname, :email]
   end
 
-  def token
-    JsonWebToken.encode(user_id: self.id)
+  def token(exp)
+    JsonWebToken.encode({ user_id: self.id }, exp)
   end
 
   def update_user_info(params)

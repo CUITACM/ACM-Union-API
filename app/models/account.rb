@@ -1,16 +1,15 @@
 class Account < ApplicationRecord
 
-  validates :nickname, :oj_name, :user_id,
-            presence: true, on: [:create]
+  validates :nickname, :oj_name, :user_id, presence: true, on: [:create]
 
   # constants
-  STATUS_NOT_INIT = 0
-  STATUS_NORMAL = 1
-  STATUS_QUEUE = 2
-  STATUS_UPDATING = 3
-  STATUS_UPDATE_ERROR = 4
-  STATUS_ACCOUNT_ERROR = 5
-  STATUS_RESET = 100
+  STATUS_NOT_INIT       = 0
+  STATUS_NORMAL         = 1
+  STATUS_QUEUE          = 2
+  STATUS_UPDATING       = 3
+  STATUS_UPDATE_ERROR   = 4
+  STATUS_ACCOUNT_ERROR  = 5
+  STATUS_STOP           = 100
 
   before_create do
     self.solved = self.submitted = 0

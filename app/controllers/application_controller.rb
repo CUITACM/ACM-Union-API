@@ -2,31 +2,28 @@ class ApplicationController < ActionController::API
   include Pundit
   attr_accessor :current_user
   rescue_from Pundit::NotAuthorizedError, with: :api_error!
-  before_action :authenticate_user
 
   protected
 
   def authenticate_user
-    token = auth_token
-    api_error! and return if token.blank?
-    @current_user = User.find_by(id: token)
-    api_error! if @current_user.blank?
-  rescue JWT::VerificationError, JWT::DecodeError
-    api_error!(message: '验证失败')
-  rescue JWT::ExpiredSignature
-    api_error!(message: '授权已过期')
+    begin
+      auth_header = request.headers['Authorization']
+      payload = auth_header && JsonWebToken.decode(auth_header.split(' ').last)
+      p payload
+      token = payload && payload[:user_id]
+      api_error! and return if token.blank?
+      @current_user = User.find_by(id: token)
+      api_error! if @current_user.blank?
+    rescue JWT::VerificationError, JWT::DecodeError
+      api_error!(message: '授权失败')
+    rescue JWT::ExpiredSignature
+      api_error!(message: '授权已过期')
+    end
   end
 
-  def api_error!(things = {})
-    things.merge!(error: 1)
-    render status: :unauthorized, json: things
-  end
-
-  def auth_token
-    auth_header = request.headers['Authorization']
-    http_token = auth_header.split(' ').last if auth_header.present?
-    payload = http_token && JsonWebToken.decode(http_token)
-    payload && payload[:user_id]
+  def api_error!(**things)
+    info = { error: 1 }.merge(things)
+    render status: :unauthorized, json: info
   end
 
   def meta_with_page(resource, extra_meta = {})

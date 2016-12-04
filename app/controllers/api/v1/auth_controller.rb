@@ -1,7 +1,5 @@
 class Api::V1::AuthController < ApplicationController
 
-  skip_before_action :authenticate_user
-
   def token
     ident = login_params[:nickname]
     api_error! and return if ident.blank?
@@ -12,7 +10,8 @@ class Api::V1::AuthController < ApplicationController
       user = user_info.user if user_info.present?
     end
     if user.present? && user.authenticate(login_params[:password])
-      render json: { token: user.token }
+      expires = AcmUnionApi::TOKEN_EXPIRES
+      render json: { token: user.token(expires), expire_time: expires }
     else
       api_error!
     end

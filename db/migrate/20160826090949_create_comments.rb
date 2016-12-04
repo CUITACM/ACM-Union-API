@@ -2,8 +2,6 @@ class CreateComments < ActiveRecord::Migration[5.0]
   def change
     create_table :comments do |t|
       t.integer   :user_id, null: false
-      t.string    :user_name, null: false
-      t.string    :user_avatar
       t.string    :description, limit: 512, null: false
       t.integer   :commentable_id, null: false
       t.string    :commentable_type, null: false

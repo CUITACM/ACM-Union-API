@@ -16,7 +16,12 @@ Rails.application.configure do
   if Rails.root.join('tmp/caching-dev.txt').exist?
     config.action_controller.perform_caching = true
 
-    config.cache_store = :memory_store
+    config.cache_store = :redis_store, {
+        host: '127.0.0.1',
+        port: 6379,
+        db: 1,
+        namespace: 'cuit_acm:cache'
+    }
     config.public_file_server.headers = {
       'Cache-Control' => 'public, max-age=172800'
     }

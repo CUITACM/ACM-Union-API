@@ -13,6 +13,7 @@ class CreateSubmits < ActiveRecord::Migration[5.0]
       t.integer   :user_id
       t.string    :user_name
       t.string    :oj_name, limit: 32
+      t.string    :origin_oj, limit: 32
 
       t.timestamps
     end

@@ -4,7 +4,7 @@ class CreateResources < ActiveRecord::Migration[5.0]
       t.string    :path
       t.string    :filename, null: false
       t.string    :usage, null: false
-      t.string    :description
+      t.string    :description, limit: 2048
       t.integer   :auth, default: 0
       t.integer   :owner_id
 

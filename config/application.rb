@@ -29,6 +29,12 @@ module AcmUnionApi
     config.autoload_paths << Rails.root.join('lib')
     config.autoload_paths << Rails.root.join('app/policies')
 
+    config.time_zone = 'Chongqing'
+    config.active_record.default_timezone = :local
+    config.active_record.time_zone_aware_attributes = false
+
+    config.encoding = "utf-8"
+
     # CORS
     config.middleware.insert_before 0, Rack::Cors do
       allow do
@@ -37,4 +43,8 @@ module AcmUnionApi
       end
     end
   end
+
+  # constants
+  TOKEN_EXPIRES = 2.hours.to_i
+
 end
