@@ -25,6 +25,10 @@ class Article < ApplicationRecord
     [:title, :content]
   end
 
+  def publish?
+    self.status >= 2
+  end
+
   def update_with_tags(tags, args)
     new_tags = tags.map do |v|
       tag = Tag.find_by(name: v) || Tag.create(name: v)

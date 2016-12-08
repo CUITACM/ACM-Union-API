@@ -6,7 +6,7 @@ class ApplicationRecord < ActiveRecord::Base
       sort_order = params[:sort_order] == 'ascend' ? 'asc' : 'desc'
       self.order("#{params[:sort_field]} #{sort_order}")
     else
-      self.order("")
+      self.order('')
     end
   end
 
@@ -16,7 +16,7 @@ class ApplicationRecord < ActiveRecord::Base
         "#{key} LIKE '%#{params[:search]}%'"
       }.join(' OR '))
     else
-      self.where("")
+      self.where('')
     end
   end
 
@@ -27,7 +27,7 @@ class ApplicationRecord < ActiveRecord::Base
       filters_params.each { |key, value| wheres.store(key, value) }
       self.where(wheres)
     else
-      self.where("")
+      self.where('')
     end
   end
 

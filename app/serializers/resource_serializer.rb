@@ -3,10 +3,7 @@ class ResourceSerializer < ActiveModel::Serializer
   attributes :auth
 
   attribute :file do
-    {
-        origin: object.file.url,
-        thumb: object.file.thumb.url
-    }
+    { origin: object.file.url, thumb: object.file.thumb.url }
   end
 
   attribute :file_size do

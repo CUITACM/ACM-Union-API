@@ -1,19 +1,20 @@
 class ApplicationController < ActionController::API
   include Pundit
-  attr_accessor :current_user
   rescue_from Pundit::NotAuthorizedError, with: :api_error!
 
   protected
 
+  def current_user
+    auth_header = request.headers['Authorization']
+    payload = auth_header && JsonWebToken.decode(auth_header.split(' ').last)
+    token = payload && payload[:user_id]
+    api_error! and return if token.blank?
+    User.find_by(id: token)
+  end
+
   def authenticate_user
     begin
-      auth_header = request.headers['Authorization']
-      payload = auth_header && JsonWebToken.decode(auth_header.split(' ').last)
-      p payload
-      token = payload && payload[:user_id]
-      api_error! and return if token.blank?
-      @current_user = User.find_by(id: token)
-      api_error! if @current_user.blank?
+      api_error! if current_user.blank?
     rescue JWT::VerificationError, JWT::DecodeError
       api_error!(message: '授权失败')
     rescue JWT::ExpiredSignature
@@ -24,6 +25,11 @@ class ApplicationController < ActionController::API
   def api_error!(**things)
     info = { error: 1 }.merge(things)
     render status: :unauthorized, json: info
+  end
+
+  def deny_access!(**things)
+    info = { error: 1 }.merge(things)
+    render status: :forbidden, json: info
   end
 
   def meta_with_page(resource, extra_meta = {})

@@ -3,10 +3,11 @@ class UserSerializer < ActiveModel::Serializer
   attributes :role, :status
 
   attribute :avatar do
-    {
-        origin: object.avatar.url,
-        thumb: object.avatar.thumb.url
-    }
+    { origin: object.avatar.url, thumb: object.avatar.thumb.url }
+  end
+
+  attribute :created_at do
+    object.created_at.strftime("%Y-%m-%d %H:%M:%S")
   end
 
   has_one :user_info do

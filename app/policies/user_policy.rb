@@ -1,5 +1,10 @@
 class UserPolicy < ApplicationPolicy
-  def update?
+
+  def create?
     true
+  end
+
+  def update?
+    record.id == user.id || user.admin?
   end
 end

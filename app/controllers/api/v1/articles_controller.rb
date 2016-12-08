@@ -9,11 +9,13 @@ class Api::V1::ArticlesController < ApplicationController
 
   def show
     @article = Article.find(params[:id])
+    authorize @article
     render json: @article
   end
 
   def create
     @article = Article.new
+    authorize @article
     @article.assign_attributes(article_params)
     @article.user_id = current_user.id
     if @article.save
@@ -25,6 +27,7 @@ class Api::V1::ArticlesController < ApplicationController
 
   def update
     @article = Article.find(params[:id])
+    authorize @article, update_or_delete?
     if @article.update_with_tags(params[:tags], article_params)
       render json: @article
     else
@@ -34,6 +37,7 @@ class Api::V1::ArticlesController < ApplicationController
 
   def destroy
     @article = Article.find(params[:id])
+    authorize @article, update_or_destroy?
     if @article.destroy
       render json: { error_code: 0 }
     else
@@ -41,9 +45,10 @@ class Api::V1::ArticlesController < ApplicationController
     end
   end
 
+  private
+
   def article_params
     params.permit(:title, :content, :status, :article_type)
   end
 
-  private :article_params
 end

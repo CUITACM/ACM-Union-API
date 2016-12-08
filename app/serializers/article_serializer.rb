@@ -7,10 +7,7 @@ class ArticleSerializer < ActiveModel::Serializer
   end
 
   has_one :user do
-    {
-        id: object.user.id,
-        name: object.user.name
-    }
+    { id: object.user.id, name: object.user.name }
   end
 
   has_many :tags do

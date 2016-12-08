@@ -8,16 +8,31 @@ class User < ApplicationRecord
   has_many :articles
 
   # User status def
-  STATUS_REJECT = -1
-  STATUS_APPLY  = 0    # 申请
-  STATUS_TRAIN  = 1    # 训练
-  STATUS_RETIRE = 2   # 退役
+  STATUS_REJECT = -1    # 拒绝申请
+  STATUS_APPLY  = 0     # 申请
+  STATUS_TRAIN  = 1     # 训练
+  STATUS_RETIRE = 2     # 退役
+
+  ROLE_STUDENT  = 1     # 学生
+  ROLE_COACH    = 2     # 教练
+  ROLE_ADMIN    = 4     # 管理员
 
   # scope
-  scope :admin, -> { where('role >= 4') }
+  scope :student, -> { where(role: ROLE_STUDENT) }
+  scope :coach, -> { where(role: ROLE_STUDENT) }
+  scope :manager, -> { where(role: ROLE_ADMIN) }
 
-  def search_columns
-    [:name, :nickname, :email]
+
+  def self.search_columns
+    [:nickname, :display_name, :description]
+  end
+
+  def super_admin?
+    self.role == ROLE_ADMIN
+  end
+
+  def admin?
+    self.super_admin? || self.role == ROLE_COACH
   end
 
   def token(exp)
