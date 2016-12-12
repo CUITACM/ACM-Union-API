@@ -1,5 +1,7 @@
 class Api::V1::ArticlesController < ApplicationController
 
+  before_action :authenticate_user
+
   def index
     @articles = Article.with_search(params).with_filters(params).with_sort(params)
     @articles = @articles.page(params[:page] || 1).per(params[:per])
@@ -27,7 +29,7 @@ class Api::V1::ArticlesController < ApplicationController
 
   def update
     @article = Article.find(params[:id])
-    authorize @article, update_or_delete?
+    authorize @article, :update_or_destroy?
     if @article.update_with_tags(params[:tags], article_params)
       render json: @article
     else
@@ -37,7 +39,7 @@ class Api::V1::ArticlesController < ApplicationController
 
   def destroy
     @article = Article.find(params[:id])
-    authorize @article, update_or_destroy?
+    authorize @article, :update_or_destroy?
     if @article.destroy
       render json: { error_code: 0 }
     else

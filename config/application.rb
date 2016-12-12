@@ -45,6 +45,6 @@ module AcmUnionApi
   end
 
   # constants
-  TOKEN_EXPIRES = 2.hours.to_i
+  TOKEN_EXPIRES = 24.hours.to_i
 
 end

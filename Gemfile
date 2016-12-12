@@ -38,7 +38,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'active_model_serializers'
 gem 'pundit'
 gem 'kaminari'
-gem 'carrierwave'
+gem 'carrierwave', '>= 1.0.0.rc', '< 2.0'
 gem 'mini_magick'
 gem 'jwt'
 gem 'lograge'

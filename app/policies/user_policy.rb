@@ -1,10 +1,7 @@
 class UserPolicy < ApplicationPolicy
 
-  def create?
-    true
-  end
-
-  def update?
+  def update_or_destroy?
     record.id == user.id || user.admin?
   end
+
 end

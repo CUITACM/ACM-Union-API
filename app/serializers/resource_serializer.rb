@@ -1,13 +1,14 @@
 class ResourceSerializer < ActiveModel::Serializer
-  attributes :id, :filename, :usage, :description, :owner
+  attributes :id, :filename, :usage, :description, :owner_id
   attributes :auth
 
-  attribute :file do
-    { origin: object.file.url, thumb: object.file.thumb.url }
+  attribute :path do
+    p object
+    { origin: object.path.url, thumb: object.path.thumb.url }
   end
 
   attribute :file_size do
-    ActiveSupport::NumberHelper.number_to_human_size(File.size(object.file.current_path))
+    ActiveSupport::NumberHelper.number_to_human_size(File.size(object.path.current_path))
   end
 
   attribute :created_at do

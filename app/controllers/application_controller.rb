@@ -1,20 +1,23 @@
 class ApplicationController < ActionController::API
   include Pundit
-  rescue_from Pundit::NotAuthorizedError, with: :api_error!
+  attr_reader :current_user
+  rescue_from Pundit::NotAuthorizedError, with: :deny_access!
 
   protected
 
-  def current_user
+  def get_current_user
+    @current_user if @current_user.present?
     auth_header = request.headers['Authorization']
     payload = auth_header && JsonWebToken.decode(auth_header.split(' ').last)
     token = payload && payload[:user_id]
-    api_error! and return if token.blank?
-    User.find_by(id: token)
+    return nil if token.blank?
+    @current_user = User.find_by(id: token)
   end
 
   def authenticate_user
     begin
-      api_error! if current_user.blank?
+      api_error! if get_current_user.blank?
+      Rails.logger.info("App#current_user ==> #{@current_user.id}/#{@current_user.nickname}")
     rescue JWT::VerificationError, JWT::DecodeError
       api_error!(message: '授权失败')
     rescue JWT::ExpiredSignature
