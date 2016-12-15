@@ -33,7 +33,7 @@ module AcmUnionApi
     config.active_record.default_timezone = :local
     config.active_record.time_zone_aware_attributes = false
 
-    config.encoding = "utf-8"
+    config.encoding = 'utf-8'
 
     # CORS
     config.middleware.insert_before 0, Rack::Cors do
@@ -42,6 +42,8 @@ module AcmUnionApi
         resource '*', :headers => :any, :methods => [:get, :post, :put, :patch, :delete, :options]
       end
     end
+
+    config.middleware.use Rack::Attack
   end
 
   # constants

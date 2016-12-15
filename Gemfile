@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'https://gems.ruby-china.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -47,3 +47,4 @@ gem 'by_star', git: 'https://github.com/radar/by_star.git'
 gem 'redis'
 gem 'redis-namespace'
 gem 'redis-rails', '~> 5'
+gem 'rack-attack'

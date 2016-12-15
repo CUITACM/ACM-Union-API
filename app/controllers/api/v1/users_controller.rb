@@ -3,7 +3,7 @@ class Api::V1::UsersController < ApplicationController
   before_action :authenticate_user
 
   def index
-    @users = User.with_search(params).with_sort(params)
+    @users = User.with_search(params).with_filters(params).with_sort(params)
     @users = @users.page(params[:page] || 1).per(params[:per])
         .includes(:user_info)
     render json: @users, root: 'items', meta: meta_with_page(@users)

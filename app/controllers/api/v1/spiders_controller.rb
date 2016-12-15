@@ -1,6 +1,6 @@
 class Api::V1::SpidersController < ApplicationController
 
-  before_action :authenticate_user, except: [:accounts]
+  before_action :authenticate_user, except: [:accounts, :submits]
 
   def accounts
     @accounts = Account.page(params[:page] || 1).per(params[:per])
@@ -10,6 +10,15 @@ class Api::V1::SpidersController < ApplicationController
   def create_account
     @account = Account.new(account_params)
     if @account.save!
+      render json: @account
+    else
+      render json: { error_code: 1 }
+    end
+  end
+
+  def update_account
+    @account = Account.find(params[:id])
+    if @account.update(account_params)
       render json: @account
     else
       render json: { error_code: 1 }

@@ -3,7 +3,7 @@ class ArticleSerializer < ActiveModel::Serializer
   attribute :article_type
 
   attribute :created_at do
-    object.created_at.strftime("%Y-%m-%d %H:%M:%S")
+    object.created_at.strftime('%Y-%m-%d %H:%M:%S')
   end
 
   has_one :user do

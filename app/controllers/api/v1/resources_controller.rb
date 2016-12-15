@@ -35,10 +35,10 @@ class Api::V1::ResourcesController < ApplicationController
     end
   end
 
+  private
+
   def resource_params
     params.permit(:path, :filename, :usage)
   end
-
-  private :resource_params
 
 end

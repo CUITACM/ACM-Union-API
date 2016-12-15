@@ -3,7 +3,6 @@ class ResourceSerializer < ActiveModel::Serializer
   attributes :auth
 
   attribute :path do
-    p object
     { origin: object.path.url, thumb: object.path.thumb.url }
   end
 
@@ -12,6 +11,6 @@ class ResourceSerializer < ActiveModel::Serializer
   end
 
   attribute :created_at do
-    object.created_at.strftime("%Y-%m-%d %H:%M:%S")
+    object.created_at.strftime('%Y-%m-%d %H:%M:%S')
   end
 end
