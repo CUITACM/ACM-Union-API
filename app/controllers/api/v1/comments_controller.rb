@@ -3,7 +3,8 @@ class Api::V1::CommentsController < ApplicationController
   before_action :authenticate_user
 
   def index
-    @comments = Comment.page(params[:page]).per(params[:per])
+    @comments = Comment.with_search(params).with_filters(params).with_sort(params)
+    @comments = @comments.includes(:user).page(params[:page]).per(params[:per])
     render json: @comments, root: 'items', meta: meta_with_page(@comments)
   end
 

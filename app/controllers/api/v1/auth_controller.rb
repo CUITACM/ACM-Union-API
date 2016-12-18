@@ -1,8 +1,13 @@
 class Api::V1::AuthController < ApplicationController
 
   def token
+    requires! :nickname
+    requires! :password
+
     ident = login_params[:nickname]
-    api_error! and return if ident.blank?
+    if ident.blank?
+      raise ActionController::ParameterMissing.new(:nickname)
+    end
 
     user = User.find_by(nickname: ident)
     if user.blank?
@@ -13,7 +18,7 @@ class Api::V1::AuthController < ApplicationController
       expires = AcmUnionApi::TOKEN_EXPIRES
       render json: { token: user.token(expires), expire_time: expires }
     else
-      api_error!
+      error!
     end
   end
 

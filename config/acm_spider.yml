@@ -1,0 +1,11 @@
+
+default: &default
+  host: 127.0.0.1
+
+development:
+  <<: *default
+  port: 8000
+
+production:
+  <<: *default
+  port: 8000

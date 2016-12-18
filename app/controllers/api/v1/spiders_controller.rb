@@ -3,7 +3,8 @@ class Api::V1::SpidersController < ApplicationController
   before_action :authenticate_user, except: [:accounts, :submits]
 
   def accounts
-    @accounts = Account.page(params[:page] || 1).per(params[:per])
+    @accounts = Account.with_search(params).with_filters(params).with_sort(params)
+    @accounts = @accounts.includes(:user).page(params[:page] || 1).per(params[:per])
     render json: @accounts, root: 'items', meta: meta_with_page(@accounts)
   end
 
@@ -35,8 +36,14 @@ class Api::V1::SpidersController < ApplicationController
   end
 
   def submits
-    @submits = Submit.page(params[:page] || 1).per(params[:per])
+    @submits = Submit.with_search(params).with_filters(params).with_sort(params)
+    @submits = @submits.page(params[:page] || 1).per(params[:per])
     render json: @submits, root: 'items', meta: meta_with_page(@submits)
+  end
+
+  def workers
+    @workers = SpiderService.get_open_spiders
+    render json: @workers
   end
 
   private

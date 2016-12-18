@@ -1,4 +1,5 @@
 class Account < ApplicationRecord
+  belongs_to :user
 
   validates :nickname, :oj_name, :user_id, presence: true, on: [:create]
 

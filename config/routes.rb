@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       put     '/spiders/accounts/:id',  to: 'spiders#update_account'
       delete  '/spiders/accounts/:id',  to: 'spiders#delete_account'
       get     '/spiders/submits',       to: 'spiders#submits'
+      get     '/spiders/workers',       to: 'spiders#workers'
     end
   end
 

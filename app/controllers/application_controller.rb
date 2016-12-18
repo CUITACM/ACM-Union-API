@@ -1,9 +1,71 @@
 class ApplicationController < ActionController::API
   include Pundit
   attr_reader :current_user
-  rescue_from Pundit::NotAuthorizedError, with: :deny_access!
 
-  protected
+  # 参数值不在允许的范围内
+  # HTTP Status 400 { error: 'ParameterInvalid', message: '原因' }
+  class ParameterValueNotAllowed < ActionController::ParameterMissing
+    attr_reader :values
+    def initialize(param, values) # :nodoc:
+      @param = param
+      @values = values
+      super("param: #{param} value only allowed in: #{values}")
+    end
+  end
+
+  # 未登录返回信息
+  # HTTP Status 401 { error: 'Unauthorized', message: '原因' }
+  class Unauthorized < StandardError; end
+
+  # 无权限返回信息
+  # HTTP Status 403 { error: 'AccessDenied', message: '原因' }
+  class AccessDenied < StandardError; end
+
+  # 数据不存在
+  # HTTP Status 404 { error: 'ResourceNotFound', message: '原因' }
+  class PageNotFound < StandardError; end
+
+
+  # error handlers
+  rescue_from(Pundit::NotAuthorizedError) do |err|
+    render json: { error: 'NotAuthorized', message: err }, status: 403
+  end
+  rescue_from(ActionController::ParameterMissing) do |err|
+    render json: { error: 'ParameterInvalid', message: err }, status: 400
+  end
+  rescue_from(ActiveRecord::RecordInvalid) do |err|
+    render json: { error: 'RecordInvalid', message: err }, status: 400
+  end
+  rescue_from(AccessDenied) do |err|
+    render json: { error: 'AccessDenied', message: err }, status: 403
+  end
+  rescue_from(ActiveRecord::RecordNotFound) do
+    render json: { error: 'ResourceNotFound' }, status: 404
+  end
+
+  def requires!(name, opts = {})
+    opts[:require] = true
+    optional!(name, opts)
+  end
+
+  def optional!(name, opts = {})
+    if opts[:require] && !params.has_key?(name)
+      raise ActionController::ParameterMissing.new(name)
+    end
+
+    if opts[:values] && params.has_key?(name)
+      values = opts[:values].to_a
+      if !values.include?(params[name]) && !values.include?(params[name].to_i)
+        raise ParameterValueNotAllowed.new(name, opts[:values])
+      end
+    end
+
+    params[name] ||= opts[:default]
+  end
+
+  def error!(data, status_code = 400)
+    render json: data, status: status_code
+  end
 
   def get_current_user
     @current_user if @current_user.present?
@@ -16,23 +78,13 @@ class ApplicationController < ActionController::API
 
   def authenticate_user
     begin
-      api_error! if get_current_user.blank?
+      error! if get_current_user.blank?
       Rails.logger.info("App#current_user ==> #{@current_user.id}/#{@current_user.nickname}")
     rescue JWT::VerificationError, JWT::DecodeError
-      api_error!(message: '授权失败')
+      error!({ messgae: '授权失败' }, status_code = 401)
     rescue JWT::ExpiredSignature
-      api_error!(message: '授权已过期')
+      error!({ messgae: '授权已过期' }, status_code = 401)
     end
-  end
-
-  def api_error!(**things)
-    info = { error: 1 }.merge(things)
-    render status: :unauthorized, json: info
-  end
-
-  def deny_access!(**things)
-    info = { error: 1 }.merge(things)
-    render status: :forbidden, json: info
   end
 
   def meta_with_page(resource, extra_meta = {})

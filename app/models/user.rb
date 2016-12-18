@@ -6,6 +6,7 @@ class User < ApplicationRecord
   # relations
   has_one :user_info, dependent: :destroy
   has_many :articles
+  has_many :accounts
 
   # User status def
   STATUS_REJECT = -1    # 拒绝申请
