@@ -3,7 +3,10 @@ class Api::V1::ResourcesController < ApplicationController
   before_action :authenticate_user
 
   def index
-    @resources = Resource.page(params[:page] || 1).per(params[:per])
+    optional! :page, default: 1
+    optional! :per, default: 10, values: 1..50
+
+    @resources = Resource.page(params[:page]).per(params[:per])
     render json: @resources, root: 'items', meta: meta_with_page(@resources)
   end
 

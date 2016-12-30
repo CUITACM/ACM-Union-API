@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       post    '/articles',              to: 'articles#create'
       put     '/articles/:id',          to: 'articles#update'
       delete  '/articles/:id',          to: 'articles#destroy'
+      put     '/articles/:id/like',     to: 'articles#like'
 
       # resources
       get     '/resources',             to: 'resources#index'

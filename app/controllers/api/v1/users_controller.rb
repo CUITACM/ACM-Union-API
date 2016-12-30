@@ -3,9 +3,13 @@ class Api::V1::UsersController < ApplicationController
   before_action :authenticate_user
 
   def index
+    optional! :page, default: 1
+    optional! :per, default: 20, values: 1..50
+    optional! :sort_field, default: :id
+    optional! :sort_order, default: :ascend, values: %w(ascend descend)
+
     @users = User.with_search(params).with_filters(params).with_sort(params)
-    @users = @users.page(params[:page] || 1).per(params[:per])
-        .includes(:user_info)
+    @users = @users.includes(:user_info).page(params[:page]).per(params[:per])
     render json: @users, root: 'items', meta: meta_with_page(@users)
   end
 

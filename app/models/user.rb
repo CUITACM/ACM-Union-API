@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_one :user_info, dependent: :destroy
   has_many :articles
   has_many :accounts
+  has_many :user_achievements
+  has_many :achievements, through: :user_achievements
 
   # User status def
   STATUS_REJECT = -1    # 拒绝申请

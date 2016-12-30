@@ -25,7 +25,6 @@ class ApplicationController < ActionController::API
   # HTTP Status 404 { error: 'ResourceNotFound', message: '原因' }
   class PageNotFound < StandardError; end
 
-
   # error handlers
   rescue_from(Pundit::NotAuthorizedError) do |err|
     render json: { error: 'NotAuthorized', message: err }, status: 403

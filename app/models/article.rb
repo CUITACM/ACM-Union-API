@@ -1,11 +1,12 @@
 class Article < ApplicationRecord
   # concern
   include Commentable
+  include Likeable
 
   # relations
   belongs_to :user
   has_many :article_tags
-  has_many :tags, :through => :article_tags
+  has_many :tags, through: :article_tags
 
   # Article type def
   TYPE_NEWS = 'News'

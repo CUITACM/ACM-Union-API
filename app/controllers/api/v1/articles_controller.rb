@@ -3,10 +3,14 @@ class Api::V1::ArticlesController < ApplicationController
   before_action :authenticate_user
 
   def index
+    optional! :page, default: 1
+    optional! :per, default: 10, values: 1..50
+    optional! :sort_field, default: :id
+    optional! :sort_order, default: :ascend, values: %w(ascend descend)
+
     @articles = Article.with_search(params).with_filters(params).with_sort(params)
-    @articles = @articles.includes(:user, :tags)
-      .page(params[:page] || 1).per(params[:per])
-    render json: @articles, root: 'items', meta: meta_with_page(@articles)
+    @articles = @articles.includes(:user, :tags).page(params[:page]).per(params[:per])
+    render json: @articles, root: 'items',meta: meta_with_page(@articles)
   end
 
   def show
@@ -45,6 +49,10 @@ class Api::V1::ArticlesController < ApplicationController
     else
       render json: { error_code: 1 }
     end
+  end
+
+  def like
+    @article = Article.find(params[:id])
   end
 
   private

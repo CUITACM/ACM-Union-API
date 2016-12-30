@@ -3,8 +3,13 @@ class Api::V1::SpidersController < ApplicationController
   before_action :authenticate_user, except: [:accounts, :submits]
 
   def accounts
+    optional! :page, default: 1
+    optional! :per, default: 15, values: 1..150
+    optional! :sort_field, default: :id
+    optional! :sort_order, default: :ascend, values: %w(ascend descend)
+
     @accounts = Account.with_search(params).with_filters(params).with_sort(params)
-    @accounts = @accounts.includes(:user).page(params[:page] || 1).per(params[:per])
+    @accounts = @accounts.includes(:user).page(params[:page]).per(params[:per])
     render json: @accounts, root: 'items', meta: meta_with_page(@accounts)
   end
 
@@ -36,14 +41,33 @@ class Api::V1::SpidersController < ApplicationController
   end
 
   def submits
+    optional! :page, default: 1
+    optional! :per, default: 20, values: 1..500
+    optional! :sort_field, default: :id
+    optional! :sort_order, default: :ascend, values: %w(ascend descend)
+
     @submits = Submit.with_search(params).with_filters(params).with_sort(params)
-    @submits = @submits.page(params[:page] || 1).per(params[:per])
+    @submits = @submits.page(params[:page]).per(params[:per])
     render json: @submits, root: 'items', meta: meta_with_page(@submits)
   end
 
   def workers
-    @workers = SpiderService.get_open_spiders
+    @workers = SpiderService.get_open_spider_workers
     render json: @workers
+  end
+
+  def open_worker
+    requires! :oj_name, values: Account::OJ_DICT.values
+
+    oj_name = params[:oj_name]
+    render json: SpiderService.open_spider_worker(oj_name)
+  end
+
+  def close_worker
+    requires! :oj_name, values: Account::OJ_DICT.values
+
+    oj_name = params[:oj_name]
+    render json: SpiderService.close_spider_worker(oj_name)
   end
 
   private

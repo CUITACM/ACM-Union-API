@@ -12,6 +12,15 @@ class Account < ApplicationRecord
   STATUS_ACCOUNT_ERROR  = 5
   STATUS_STOP           = 100
 
+  OJ_DICT = {
+    HDU: 'hdu',
+    BNU: 'bnu',
+    POJ: 'poj',
+    Vjudge: 'vj',
+    Codeforces: 'cf',
+    Bestcoder: 'bc'
+  }
+
   before_create do
     self.solved = self.submitted = 0
     self.status = STATUS_NOT_INIT
