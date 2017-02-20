@@ -13,9 +13,9 @@ class Article < ApplicationRecord
   TYPE_SOLUTION = 'Solution'
 
   # Article status def
-  STATUS_RECYCLE  = 0  # 回收站
-  STATUS_DRAFT    = 1    # 草稿
-  STATUS_PUBLISH  = 2  # 发布
+  STATUS_RECYCLE  = 0   # 回收站
+  STATUS_DRAFT    = 1   # 草稿
+  STATUS_PUBLISH  = 2   # 发布
   STATUS_PINNED   = 3   # 置顶
 
   # scope

@@ -1,6 +1,6 @@
 class Api::V1::ArticlesController < ApplicationController
 
-  before_action :authenticate_user
+  before_action :authenticate_user, only: [:show, :create, :update, :destroy]
 
   def index
     optional! :page, default: 1

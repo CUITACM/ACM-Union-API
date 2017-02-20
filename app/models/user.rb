@@ -25,6 +25,14 @@ class User < ApplicationRecord
   scope :coach, -> { where(role: ROLE_STUDENT) }
   scope :manager, -> { where(role: ROLE_ADMIN) }
 
+  scope :new_comer, -> { where(status: [STATUS_APPLY, STATUS_REJECT]) }
+  scope :normal, -> { where(status: [STATUS_TRAIN, STATUS_RETIRE]) }
+
+  before_create do
+    self.role = ROLE_STUDENT
+    self.status = STATUS_APPLY
+  end
+
 
   def self.search_columns
     [:nickname, :display_name, :description]

@@ -6,6 +6,10 @@ class ArticleSerializer < ActiveModel::Serializer
     object.created_at.strftime('%Y-%m-%d %H:%M:%S')
   end
 
+  attribute :updated_at do
+    object.updated_at.strftime('%Y-%m-%d %H:%M:%S')
+  end
+
   has_one :user do
     { id: object.user.id, name: object.user.display_name }
   end

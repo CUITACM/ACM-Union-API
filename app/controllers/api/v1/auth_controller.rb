@@ -18,7 +18,7 @@ class Api::V1::AuthController < ApplicationController
       expires = AcmUnionApi::TOKEN_EXPIRES
       render json: { token: user.token(expires), expire_time: expires }
     else
-      error!
+      error!({ messgae: '密码错误' })
     end
   end
 

@@ -34,6 +34,9 @@ Rails.application.routes.draw do
       delete  '/spiders/accounts/:id',  to: 'spiders#delete_account'
       get     '/spiders/submits',       to: 'spiders#submits'
       get     '/spiders/workers',       to: 'spiders#workers'
+
+      # misc
+      get     '/misc/dashboard',        to: 'misc#dashboard'
     end
   end
 
