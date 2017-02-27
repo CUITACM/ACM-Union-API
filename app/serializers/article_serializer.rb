@@ -2,6 +2,10 @@ class ArticleSerializer < ActiveModel::Serializer
   attributes :id, :title, :content, :status, :like_times
   attribute :article_type
 
+  attribute :summary do
+    object.content.present? ? object.content[0, 16] : ''
+  end
+
   attribute :created_at do
     object.created_at.strftime('%Y-%m-%d %H:%M:%S')
   end

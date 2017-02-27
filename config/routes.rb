@@ -35,6 +35,9 @@ Rails.application.routes.draw do
       get     '/spiders/submits',       to: 'spiders#submits'
       get     '/spiders/workers',       to: 'spiders#workers'
 
+      # achievements
+      get     '/achievements',          to: 'achievements#index'
+
       # misc
       get     '/misc/dashboard',        to: 'misc#dashboard'
     end

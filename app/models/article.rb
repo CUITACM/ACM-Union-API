@@ -31,12 +31,14 @@ class Article < ApplicationRecord
   end
 
   def update_with_tags(tags, args)
-    new_tags = tags.map do |v|
-      tag = Tag.find_by(name: v) || Tag.create(name: v)
-      tag
+    if tags.present?
+      new_tags = tags.map do |v|
+        tag = Tag.find_by(name: v) || Tag.create(name: v)
+        tag
+      end
+      puts new_tags
+      self.tags = new_tags
     end
-    puts new_tags
-    self.tags = new_tags
     self.update_attributes(args)
   end
 

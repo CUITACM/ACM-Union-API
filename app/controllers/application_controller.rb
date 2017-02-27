@@ -77,7 +77,7 @@ class ApplicationController < ActionController::API
 
   def authenticate_user
     begin
-      error! if get_current_user.blank?
+      error!({ message: '登录失败' }) if get_current_user.blank?
       Rails.logger.info("App#current_user ==> #{@current_user.id}/#{@current_user.nickname}")
     rescue JWT::VerificationError, JWT::DecodeError
       error!({ messgae: '授权失败' }, status_code = 401)
