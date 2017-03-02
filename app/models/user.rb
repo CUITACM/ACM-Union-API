@@ -25,7 +25,7 @@ class User < ApplicationRecord
   scope :coach, -> { where(role: ROLE_STUDENT) }
   scope :manager, -> { where(role: ROLE_ADMIN) }
 
-  scope :new_comer, -> { where(status: [STATUS_APPLY, STATUS_REJECT]) }
+  scope :newcomer, -> { where(status: [STATUS_APPLY, STATUS_REJECT]) }
   scope :normal, -> { where(status: [STATUS_TRAIN, STATUS_RETIRE]) }
 
   before_create do
@@ -59,7 +59,6 @@ class User < ApplicationRecord
         :email, :stu_id, :phone, :school, :college,
         :major, :grade, :situation
     )
-    p filter_params.inspect
     @user_info.assign_attributes(filter_params)
     @user_info.save
   end

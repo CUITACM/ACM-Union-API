@@ -38,6 +38,9 @@ Rails.application.routes.draw do
       # achievements
       get     '/achievements',          to: 'achievements#index'
 
+      # honors
+      get     '/honors',                to: 'honors#index'
+
       # misc
       get     '/misc/dashboard',        to: 'misc#dashboard'
     end

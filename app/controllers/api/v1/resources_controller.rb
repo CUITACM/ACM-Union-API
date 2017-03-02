@@ -1,6 +1,6 @@
 class Api::V1::ResourcesController < ApplicationController
 
-  before_action :authenticate_user
+  before_action :authenticate_user, only: [:create, :destroy]
 
   def index
     optional! :page, default: 1
