@@ -11,6 +11,10 @@ module GameCenter
       return nil if config.nil?
       @redis ||= config.redis
     end
+
+    def mq_key
+      'achievement_queue'
+    end
   end
 
   class Config

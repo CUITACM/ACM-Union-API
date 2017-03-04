@@ -1,0 +1,18 @@
+
+default: &default
+  app_ns: 'cuit_acm'
+
+
+development:
+  <<: *default
+  host: '127.0.0.1'
+  port: 6379
+  db: 0
+  time_out: 0.12
+
+production:
+  <<: *default
+  host: '127.0.0.1'
+  port: 6379
+  db: 0
+  time_out: 0.12

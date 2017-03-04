@@ -1,16 +1,5 @@
 class ArticlePolicy < ApplicationPolicy
 
-  def show?
-    case record.article_type
-    when Article::TYPE_NEWS
-      user.admin? || record.publish?
-    when Article::TYPE_SOLUTION
-      user.admin? || record.user_id == user.id || record.publish?
-    else
-      false
-    end
-  end
-
   def create?
     case record.article_type
     when Article::TYPE_NEWS

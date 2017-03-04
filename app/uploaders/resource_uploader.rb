@@ -47,7 +47,7 @@ class ResourceUploader < CarrierWave::Uploader::Base
   def filename
     if original_filename
       @name ||= Digest::MD5.hexdigest(Time.now.strftime('%y-%m-%d') + original_filename)
-      "#{@name}.#{file.extension}" if original_filename
+      "#{@name}.#{file.extension}"
     end
   end
 

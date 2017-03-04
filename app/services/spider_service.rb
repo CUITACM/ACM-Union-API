@@ -5,6 +5,7 @@ class SpiderService
   API_ROOT = "http://#{HOST}:#{PORT}"
 
   class << self
+
     def get_open_spider_workers
       begin
         HTTP.get("#{API_ROOT}/api/spider/workers").parse

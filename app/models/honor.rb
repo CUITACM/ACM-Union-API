@@ -1,5 +1,7 @@
 class Honor < ApplicationRecord
 
+  serialize :images, Array
+
   LEVEL = {
     '100': '校赛三等奖',
     '101': '校赛二等奖',

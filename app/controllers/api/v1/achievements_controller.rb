@@ -1,10 +1,10 @@
 class Api::V1::AchievementsController < ApplicationController
 
-  before_action :authenticate_user, except: []
+  before_action :authenticate_user, only: [:create, :update, :destroy]
 
   def index
     optional! :page, default: 1
-    optional! :per, default: 15, values: 1..150
+    optional! :per, default: 15, values: 1..100
     optional! :sort_field, default: :id
     optional! :sort_order, default: :ascend, values: %w(ascend descend)
 
@@ -13,9 +13,15 @@ class Api::V1::AchievementsController < ApplicationController
     render json: @achievements, root: 'items', meta: meta_with_page(@achievements)
   end
 
+  def show
+    @achievement = Achievement.find(params[:id])
+    render json: @achievement
+  end
+
   def create
     @achievement = Achievement.new
     @achievement.assign_attributes(achievement_params)
+    Rails.logger.info(achievement_params.inspect)
     if @achievement.save!
       render json: @achievement
     else
@@ -26,7 +32,6 @@ class Api::V1::AchievementsController < ApplicationController
   def update
     @achievement = Achievement.find(params[:id])
     # authorize @user, :update_or_destroy?
-    @achievement.update_user_info(params)
     if @achievement.update!(achievement_params)
       render json: @achievement
     else
@@ -44,7 +49,11 @@ class Api::V1::AchievementsController < ApplicationController
     end
   end
 
+  private
+
   def achievement_params
-    params.permit(:name, :description, :score, :achievement_type, :conditions)
+    params.permit(:name, :description, :score, :achievement_type).tap do |white_listed|
+      white_listed[:conditions] = params[:conditions].permit!
+    end
   end
 end

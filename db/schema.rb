@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161204132324) do
+ActiveRecord::Schema.define(version: 20170304131503) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "nickname",                     null: false
@@ -71,12 +71,13 @@ ActiveRecord::Schema.define(version: 20161204132324) do
   end
 
   create_table "honors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "contest_name",  null: false
-    t.integer  "content_level", null: false
+    t.string   "contest_name",               null: false
+    t.integer  "content_level",              null: false
     t.string   "description"
     t.string   "team_name"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "images",        limit: 1024
   end
 
   create_table "resources", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -91,12 +92,12 @@ ActiveRecord::Schema.define(version: 20161204132324) do
   end
 
   create_table "submits", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "pro_id",       limit: 32
-    t.string   "run_id",       limit: 32
+    t.string   "pro_id",       limit: 128
+    t.string   "run_id",       limit: 128
     t.integer  "run_time"
     t.integer  "memory"
-    t.string   "lang",         limit: 32
-    t.string   "result",       limit: 32
+    t.string   "lang",         limit: 64
+    t.string   "result",       limit: 64
     t.text     "code",         limit: 65535
     t.datetime "submitted_at"
     t.integer  "status"

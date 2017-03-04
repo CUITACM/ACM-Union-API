@@ -13,4 +13,10 @@ class Api::V1::HonorsController < ApplicationController
     render json: @honors, root: 'items', meta: meta_with_page(@honors)
   end
 
+  private
+
+  def honor_params
+    params.permit(:contest_name, :contest_level, :description, :team_name, images: [])
+  end
+
 end

@@ -37,6 +37,11 @@ Rails.application.routes.draw do
 
       # achievements
       get     '/achievements',          to: 'achievements#index'
+      get     '/achievements/:id',      to: 'achievements#show'
+      post    '/achievements',          to: 'achievements#create'
+      put     '/achievements/:id',      to: 'achievements#update'
+      delete  '/achievements/:id',      to: 'achievements#destroy'
+
 
       # honors
       get     '/honors',                to: 'honors#index'
