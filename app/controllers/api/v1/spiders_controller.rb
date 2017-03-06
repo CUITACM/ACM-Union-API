@@ -57,17 +57,17 @@ class Api::V1::SpidersController < ApplicationController
   end
 
   def open_worker
-    requires! :oj_name, values: Account::OJ_DICT.values
+    requires! :oj, values: Account::OJ_DICT.values
 
-    oj_name = params[:oj_name]
+    oj_name = params[:oj]
     render json: SpiderService.open_spider_worker(oj_name)
   end
 
-  def close_worker
-    requires! :oj_name, values: Account::OJ_DICT.values
+  def stop_worker
+    requires! :oj, values: Account::OJ_DICT.values
 
-    oj_name = params[:oj_name]
-    render json: SpiderService.close_spider_worker(oj_name)
+    oj_name = params[:oj]
+    render json: SpiderService.stop_spider_worker(oj_name)
   end
 
   private

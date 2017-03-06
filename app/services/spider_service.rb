@@ -24,7 +24,7 @@ class SpiderService
       end
     end
 
-    def close_spider_worker(oj_name)
+    def stop_spider_worker(oj_name)
       begin
         HTTP.delete("#{API_ROOT}/api/spider/workers", form: {
           oj_name: oj_name

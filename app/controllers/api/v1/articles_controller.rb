@@ -24,7 +24,7 @@ class Api::V1::ArticlesController < ApplicationController
     @article.assign_attributes(article_params)
     @article.user_id = current_user.id
     if @article.save
-      render json: { error_code: 0 }
+      render json: @article
     else
       render json: { error_code: 1 }
     end

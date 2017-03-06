@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 20170304131503) do
 
   create_table "honors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "contest_name",               null: false
-    t.integer  "content_level",              null: false
+    t.integer  "contest_level",              null: false
     t.string   "description"
     t.string   "team_name"
     t.datetime "created_at",                 null: false

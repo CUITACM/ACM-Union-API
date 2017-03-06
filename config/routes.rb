@@ -34,6 +34,8 @@ Rails.application.routes.draw do
       delete  '/spiders/accounts/:id',  to: 'spiders#delete_account'
       get     '/spiders/submits',       to: 'spiders#submits'
       get     '/spiders/workers',       to: 'spiders#workers'
+      put     '/spiders/workers/:oj',   to: 'spiders#open_worker'
+      delete  '/spiders/workers/:oj',   to: 'spiders#stop_worker'
 
       # achievements
       get     '/achievements',          to: 'achievements#index'
@@ -45,6 +47,10 @@ Rails.application.routes.draw do
 
       # honors
       get     '/honors',                to: 'honors#index'
+      get     '/honors/:id',            to: 'honors#show'
+      post    '/honors',                to: 'honors#create'
+      post    '/honors/:id',            to: 'honors#update'
+      delete  '/honors/:id',            to: 'honors#destroy'
 
       # misc
       get     '/misc/dashboard',        to: 'misc#dashboard'
