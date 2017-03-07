@@ -57,8 +57,8 @@ gem 'pundit'
 gem 'lograge'
 
 # date/time
-gem 'chronic'
-gem 'by_star', git: 'https://github.com/radar/by_star.git'
+# gem 'chronic'
+# gem 'by_star', git: 'https://github.com/radar/by_star.git'
 
 # redis
 gem 'redis'

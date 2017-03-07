@@ -1,10 +1,3 @@
-GIT
-  remote: https://github.com/radar/by_star.git
-  revision: 3fe3ef33e98aebcc226cbfea51d1e5101f948c78
-  specs:
-    by_star (2.2.1)
-      activesupport
-
 GEM
   remote: https://gems.ruby-china.org/
   specs:
@@ -62,7 +55,6 @@ GEM
       mime-types (>= 1.16)
     case_transform (0.2)
       activesupport
-    chronic (0.10.2)
     concurrent-ruby (1.0.5)
     domain_name (0.5.20170223)
       unf (>= 0.0.5, < 1.0.0)
@@ -207,10 +199,8 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   bcrypt (~> 3.1.7)
-  by_star!
   byebug
   carrierwave (>= 1.0.0.rc, < 2.0)
-  chronic
   http
   jwt
   kaminari
