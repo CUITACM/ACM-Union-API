@@ -1,11 +1,8 @@
 
-default: &default
-  host: 127.0.0.1
-
 development:
-  <<: *default
+  host: 127.0.0.1
   port: 8000
 
 production:
-  <<: *default
+  host: <%= ENV['ACM_SPIDER_HOST'] %>
   port: 8000

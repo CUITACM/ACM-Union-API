@@ -49,6 +49,6 @@ test:
 #
 production:
   <<: *default
-  database: acm_meter_production
-  username: acm_meter
-  password: <%= ENV['DEMO_DATABASE_PASSWORD'] %>
+  database: <%= ENV['ACM_DATABASE_URL'] %>
+  username: <%= ENV['ACM_DATABASE_USER'] %>
+  password: <%= ENV['ACM_DATABASE_PASSWORD'] %>

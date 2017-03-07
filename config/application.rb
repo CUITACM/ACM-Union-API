@@ -50,7 +50,11 @@ module AcmUnionApi
 
   # constants
   TOKEN_EXPIRES = 24.hours.to_i
-  ACM_SPIDER_CONF = YAML.load(File.read(File.join(Rails.root, 'config', 'acm_spider.yml')))[Rails.env]
-  REDIS_CONFIG = YAML.load(File.read(File.join(Rails.root, 'config', 'redis.yml')))[Rails.env]
+  ACM_SPIDER_CONF = YAML.load(
+    ERB.new(File.read(File.join(Rails.root, 'config', 'acm_spider.yml'))).result(binding)
+  )[Rails.env]
+  REDIS_CONFIG = YAML.load(
+    ERB.new(File.read(File.join(Rails.root, 'config', 'redis.yml'))).result(binding)
+  )[Rails.env]
 
 end

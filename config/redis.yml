@@ -12,7 +12,7 @@ development:
 
 production:
   <<: *default
-  host: '127.0.0.1'
+  host: <%= ENV['REDIS_HOST'] %>
   port: 6379
   db: 0
   time_out: 0.12
