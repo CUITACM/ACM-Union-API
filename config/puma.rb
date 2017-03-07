@@ -4,8 +4,6 @@
 # the maximum value specified for Puma. Default is set to 5 threads for minimum
 # and maximum, this matches the default thread size of Active Record.
 #
-app_dir = File.expand_path('../..', __FILE__)
-p app_dir
 threads 2, 32
 
 
@@ -45,12 +43,11 @@ preload_app!
 #   ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
 # end
 
-daemonize true
-pidfile "#{app_dir}/tmp/pids/puma.pid"
-state_path "#{app_dir}/tmp/pids/puma.state"
-stdout_redirect "#{app_dir}/log/puma_access.log", "#{app_dir}/log/puma_error.log", true
+#daemonize true
+#pidfile "#{app_dir}/tmp/pids/puma.pid"
+#state_path "#{app_dir}/tmp/pids/puma.state"
+#stdout_redirect "#{app_dir}/log/puma_access.log", "#{app_dir}/log/puma_error.log", true
 
-bind "#{app_dir}/tmp/sockets/puma.sock"
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart

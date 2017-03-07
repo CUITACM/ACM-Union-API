@@ -1,0 +1,41 @@
+version: '2'
+services:
+  app:
+    build: .
+    command: bundle exec puma -C config/puma.rb
+    volumes:
+      - .:/var/www/cuit_acm
+    expose:
+      - "3000"
+    env_file: .env
+    environment:
+      RAILS_ENV: $RAILS_ENV
+    links:
+      - db
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.6
+    volumes:
+      - db_data:/var/lib/mysql/data
+    env_file: .env
+    environment:
+      MYSQL_ROOT_PASSWORD: $ACM_DATABASE_PASSWORD
+      MYSQL_PASSWORD: $ACM_DATABASE_PASSWORD
+  
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    links:
+      - app
+    ports:
+      - "80:80"
+    volumes_from:
+      - app
+
+
+volumes:
+  db_data:
+
