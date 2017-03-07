@@ -49,6 +49,6 @@ test:
 #
 production:
   <<: *default
-  database: <%= ENV['ACM_DATABASE_URL'] %>
+  database: <%= ENV['ACM_DATABASE_NAME'] %>
   username: <%= ENV['ACM_DATABASE_USER'] %>
   password: <%= ENV['ACM_DATABASE_PASSWORD'] %>
