@@ -20,6 +20,4 @@
 config/database.yml
 .DS_Store
 public/uploads/
-Dockerfile
-docker-compose.yml
 .env
