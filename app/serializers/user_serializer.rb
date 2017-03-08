@@ -10,6 +10,10 @@ class UserSerializer < ActiveModel::Serializer
     object.created_at.strftime('%Y-%m-%d %H:%M:%S')
   end
 
+  attribute :is_admin do
+    object.role == 4
+  end
+
   has_one :user_info do
     object.user_info || {}
   end
