@@ -1,6 +1,6 @@
 class Api::V1::ArticlesController < ApplicationController
 
-  before_action :authenticate_user, only: [:create, :update, :destroy]
+  before_action :authenticate_user, except: [:index]
 
   def index
     optional! :page, default: 1
@@ -11,6 +11,16 @@ class Api::V1::ArticlesController < ApplicationController
     @articles = Article.with_search(params).with_filters(params).with_sort(params)
     @articles = @articles.includes(:user, :tags).page(params[:page]).per(params[:per])
     render json: @articles, root: 'items', meta: meta_with_page(@articles)
+  end
+
+  def solutions
+    optional! :page, default: 1
+    optional! :per, default: 10, values: 1..50
+
+    @solutions = Article.solution.order(created_at: :desc)
+      .with_sort(params).with_search(params).with_filters(params)
+    @solutions = @solutions.includes(:user, :tags).page(params[:page]).per(params[:per])
+    render json: @solutions, root: 'items', meta: meta_with_page(@solutions)
   end
 
   def show
@@ -54,10 +64,42 @@ class Api::V1::ArticlesController < ApplicationController
     @article = Article.find(params[:id])
   end
 
+  def comments
+    optional! :page, default: 1
+    optional! :per, default: 10, values: 1..50
+    optional! :sort_field, default: :created_at
+    optional! :sort_order, default: :descend, values: %w(ascend descend)
+
+    article_id = params[:id]
+    @comments = Comment.by_article(article_id).with_sort(params)
+    @comments = @comments.includes(:user, :parent_comment)
+      .page(params[:page]).per(params[:per])
+    render json: @comments, root: 'items', meta: meta_with_page(@comments)
+  end
+
+  def create_comment
+    article_id = params[:id]
+    @comment = Comment.new
+    @comment.assign_attributes(comment_params.merge({
+      user_id: current_user.id,
+      commentable_id: article_id,
+      commentable_type: 'Article'
+    }))
+    if @comment.save
+      render json: { error_code: 0, comment: @comment }
+    else
+      render json: { error_code: 1 }
+    end
+  end
+
   private
 
   def article_params
     params.permit(:title, :content, :status, :article_type)
+  end
+
+  def comment_params
+    params.permit(:description, :parent_id)
   end
 
 end

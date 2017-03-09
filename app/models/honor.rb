@@ -16,17 +16,8 @@ class Honor < ApplicationRecord
     '303': '区域赛金奖'
   }
 
-  # def images=(image_list)
-  #   return if image_list.blank?
-  #   image_list.each do |image|
-  #     filename = "#{self.contest_name}_#{image.original_filename}"
-  #     res = Resource.create({
-  #       filename: filename,
-  #       usage: Resource::USAGE_HONOR,
-  #       path: image,
-  #       auth: 1
-  #     })
-  #   end
-  # end
+  def self.search_columns
+    [:contest_name, :team_name]
+  end
 
 end

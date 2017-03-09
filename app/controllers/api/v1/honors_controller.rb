@@ -53,16 +53,21 @@ class Api::V1::HonorsController < ApplicationController
 
   def modify_images(honor, params)
     images = honor.images || []
+    puts images
     if params[:remove_images].present?
       remove_images = params[:remove_images].split(',')
       puts "remove_images => #{remove_images}"
       remove_images.map(&:to_i).each do |index|
         deleted_image = images.delete_at(index)
         deleted_image.try(:remove!)
+        puts images
       end
     end
     images += params[:images] if params[:images].present?
     honor.images = images
+    if honor.images.size == 0 && honor.read_attribute(:images).size == 1
+      honor.write_attribute(:images, [])
+    end
   end
 
   def honor_params

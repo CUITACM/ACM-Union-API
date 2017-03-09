@@ -29,7 +29,7 @@ class User < ApplicationRecord
   scope :normal, -> { where(status: [STATUS_TRAIN, STATUS_RETIRE]) }
 
   before_create do
-    self.role = ROLE_STUDENT
+    self.role = ROLE_STUDENT if self.role.blank?
     self.status = STATUS_APPLY
   end
 

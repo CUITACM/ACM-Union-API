@@ -14,7 +14,7 @@ class ArticleSerializer < ActiveModel::Serializer
     object.updated_at.strftime('%Y-%m-%d %H:%M:%S')
   end
 
-  has_one :user do
+  belongs_to :user do
     { id: object.user.id, name: object.user.display_name }
   end
 
