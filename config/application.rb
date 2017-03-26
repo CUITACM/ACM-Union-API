@@ -1,6 +1,6 @@
 require_relative 'boot'
 require_relative '../lib/json_web_token'
-require_relative '../lib/game_center'
+require_relative '../lib/achieve_center'
 
 require "rails"
 # Pick the frameworks you want:
@@ -49,10 +49,12 @@ module AcmUnionApi
   end
 
   # constants
-  TOKEN_EXPIRES = 24.hours.to_i
+  TOKEN_EXPIRES = Rails.env == 'production' ? 3.days.to_i : 28.days.to_i
+
   ACM_SPIDER_CONF = YAML.load(
     ERB.new(File.read(File.join(Rails.root, 'config', 'acm_spider.yml'))).result(binding)
   )[Rails.env]
+
   REDIS_CONFIG = YAML.load(
     ERB.new(File.read(File.join(Rails.root, 'config', 'redis.yml'))).result(binding)
   )[Rails.env]

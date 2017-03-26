@@ -1,3 +1,3 @@
-module GameCenter
+module AchieveCenter
   VERSION = '0.0.1'
 end

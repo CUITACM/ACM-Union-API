@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170304131503) do
+ActiveRecord::Schema.define(version: 20170320031822) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "nickname",                     null: false
@@ -66,6 +66,8 @@ ActiveRecord::Schema.define(version: 20170304131503) do
     t.integer  "like_times",                   default: 0
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
+    t.string   "user_name"
+    t.string   "user_avatar"
     t.index ["commentable_id", "commentable_type"], name: "index_comments_on_commentable", using: :btree
     t.index ["parent_id"], name: "index_comments_on_parent_id", using: :btree
   end
@@ -116,14 +118,16 @@ ActiveRecord::Schema.define(version: 20170304131503) do
   end
 
   create_table "user_achievements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "user_id",        null: false
-    t.integer  "achievement_id", null: false
+    t.integer  "user_id",                      null: false
+    t.integer  "achievement_id",               null: false
     t.integer  "current"
     t.integer  "total"
     t.boolean  "completed"
     t.datetime "completed_at"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.text     "situation",      limit: 65535
+    t.integer  "score"
     t.index ["user_id", "achievement_id"], name: "index_user_achievements_on_user_id_and_achievement_id", unique: true, using: :btree
   end
 
@@ -139,6 +143,7 @@ ActiveRecord::Schema.define(version: 20170304131503) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "train_rank"
     t.index ["user_id"], name: "index_user_infos_on_user_id", using: :btree
   end
 

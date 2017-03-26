@@ -1,6 +1,6 @@
 class Api::V1::ArticlesController < ApplicationController
 
-  before_action :authenticate_user, except: [:index]
+  before_action :authenticate_user, except: [:index, :show, :comments]
 
   def index
     optional! :page, default: 1
@@ -80,14 +80,17 @@ class Api::V1::ArticlesController < ApplicationController
   def create_comment
     article_id = params[:id]
     @comment = Comment.new
-    @comment.assign_attributes(comment_params.merge({
+    @comment.assign_attributes(comment_params.except(:id).merge({
       user_id: current_user.id,
+      user_name: current_user.display_name,
+      user_avatar: current_user.avatar.thumb.url,
       commentable_id: article_id,
       commentable_type: 'Article'
     }))
     if @comment.save
-      render json: { error_code: 0, comment: @comment }
+      render json: @comment
     else
+      Rails.logger.error("#{@comment.errors.inspect}")
       render json: { error_code: 1 }
     end
   end
@@ -99,7 +102,7 @@ class Api::V1::ArticlesController < ApplicationController
   end
 
   def comment_params
-    params.permit(:description, :parent_id)
+    params.permit(:id, :description, :parent_id)
   end
 
 end

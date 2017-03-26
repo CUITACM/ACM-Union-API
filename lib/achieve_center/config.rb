@@ -1,4 +1,4 @@
-module GameCenter
+module AchieveCenter
 
   class << self
     attr_accessor :config

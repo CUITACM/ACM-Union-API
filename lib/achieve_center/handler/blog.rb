@@ -1,6 +1,6 @@
-module GameCenter
-  module Event
-    module Blog
+module AchieveCenter
+  module Handler
+    class Blog
 
       def on_blog_post(user_id, blog)
 

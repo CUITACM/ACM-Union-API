@@ -8,16 +8,21 @@ redis_conn = Redis.new(
 
 $redis ||= Redis::Namespace.new(AcmUnionApi::REDIS_CONFIG['app_ns'], :redis => redis_conn)
 
-GameCenter.configure do |config|
+AchieveCenter.configure do |config|
   config.redis = $redis
 end
 
-$game_center_client ||= GameCenter::Client.new
+$achieve_center_client ||= AchieveCenter::Client.new
 
-#
+
 # Thread.new do
-#   while true
-#     p 'thread is running'
-#     sleep(2)
+#   p 'start running AchieveCenter'
+#   begin
+#     while true
+#       $achieve_center_client.run
+#       sleep(2)
+#     end
+#   rescue => ex
+#     Rails.logger.error(ex.message)
 #   end
 # end

@@ -1,6 +1,7 @@
 
 default: &default
   app_ns: 'cuit_acm'
+  achieve_mq: 'achievement_queue'
 
 
 development:
