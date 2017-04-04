@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       get     '/spiders/workers',             to: 'spiders#workers'
       put     '/spiders/workers/:oj',         to: 'spiders#open_worker'
       delete  '/spiders/workers/:oj',         to: 'spiders#stop_worker'
+      get     '/spiders/rank_list',           to: 'spiders#rank_list'
 
       # achievements
       get     '/achievements',                to: 'achievements#index'

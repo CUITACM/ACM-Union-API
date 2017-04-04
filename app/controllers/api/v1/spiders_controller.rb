@@ -70,6 +70,14 @@ class Api::V1::SpidersController < ApplicationController
     render json: SpiderService.stop_spider_worker(oj_name)
   end
 
+  def rank_list
+    optional! :page, default: 1
+    optional! :per, default: 15, values: 10..30
+
+    @rank_list, @meta = SpiderService.get_rank_list(params[:page], params[:per])
+    render json: {items: @rank_list, meta: @meta}
+  end
+
   private
 
   def account_params

@@ -8,4 +8,5 @@ class AccountSerializer < ActiveModel::Serializer
   attribute :updated_at do
     object.updated_at.strftime('%Y-%m-%d %H:%M:%S')
   end
+
 end

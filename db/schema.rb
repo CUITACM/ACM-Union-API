@@ -143,7 +143,6 @@ ActiveRecord::Schema.define(version: 20170320031822) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "train_rank"
     t.index ["user_id"], name: "index_user_infos_on_user_id", using: :btree
   end
 
@@ -158,6 +157,7 @@ ActiveRecord::Schema.define(version: 20170320031822) do
     t.string   "description",     limit: 1024
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
+    t.integer  "train_rank"
     t.index ["display_name"], name: "index_users_on_display_name", using: :btree
     t.index ["nickname"], name: "index_users_on_nickname", unique: true, using: :btree
   end
