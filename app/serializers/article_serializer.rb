@@ -3,7 +3,7 @@ class ArticleSerializer < ActiveModel::Serializer
   attribute :article_type
 
   attribute :summary do
-    object.content.present? ? object.content[0, 16] : ''
+    object.content.present? ? object.content[0, 50] : ''
   end
 
   attribute :created_at do

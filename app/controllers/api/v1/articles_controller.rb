@@ -62,6 +62,11 @@ class Api::V1::ArticlesController < ApplicationController
 
   def like
     @article = Article.find(params[:id])
+    if @article.like_by!(current_user)
+      render json: @article
+    else
+      render json: { error_code: 1 }
+    end
   end
 
   def comments
