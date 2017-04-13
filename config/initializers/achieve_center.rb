@@ -10,6 +10,8 @@ $redis ||= Redis::Namespace.new(AcmUnionApi::REDIS_CONFIG['app_ns'], :redis => r
 
 AchieveCenter.configure do |config|
   config.redis = $redis
+  config.logger = Logger.new("#{Rails.root}/log/achieve_#{Rails.env}.log", 5, 5120000)
+  config.logger.level = Logger::DEBUG
 end
 
 $achieve_center_client ||= AchieveCenter::Client.new

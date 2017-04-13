@@ -1,7 +1,7 @@
 module AchieveCenter
 
   class << self
-    attr_accessor :config
+    attr_accessor :config, :logger
 
     def configure
       yield self.config ||= Config.new
@@ -12,12 +12,17 @@ module AchieveCenter
       @redis ||= config.redis
     end
 
+    def logger
+      return Rails.logger if config.nil?
+      @logger = config.logger
+    end
+
     def mq_key
       'achievement_queue'
     end
   end
 
   class Config
-    attr_accessor :redis
+    attr_accessor :redis, :logger
   end
 end

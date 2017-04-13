@@ -14,7 +14,7 @@ module AchieveCenter
       when 'submit'
         Spider.run_with_submit(event)
       else
-        Rails.logger.error("[GameCenter] unknown event type #{event}")
+        AchieveCenter.logger.error("[GameCenter] unknown event type #{event}")
       end
     end
 
