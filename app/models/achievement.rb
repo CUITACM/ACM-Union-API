@@ -8,9 +8,9 @@ class Achievement < ApplicationRecord
   TYPE_CONTINUOUS = 'continuous'
 
   AMOUNT_TYPE = {
-    :like => 'like',
     :blog => 'blog',
     :accepted => 'accepted',
+    :like => 'like',
     :comment => 'comment',
     :cf_rating => 'cf_rating'
   }

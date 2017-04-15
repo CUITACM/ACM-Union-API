@@ -47,8 +47,9 @@ module AchieveCenter
         ua.save
       end
 
-      def self.run_with_submit(event)
+      def self.handle_submit(event)
         submit = Submit.find_by(id: event['id'])
+        return if submit.blank?
         Achievement.find_each do |achieve|
           # amount achievement
           case achieve.achievement_type
@@ -57,16 +58,21 @@ module AchieveCenter
             case conditions['type']
             when Achievement::AMOUNT_TYPE[:accepted]
               update_for_ac_amount(achieve, submit)
+            when Achievement::AMOUNT_TYPE[:cf_rating]
+              # TODO
             else
               AchieveCenter.logger.warn("[GameCenter] unknown ammount type #{conditions}")
+              next
             end
 
           # subject achievement
           when Achievement::TYPE_SUBJECT
             update_for_subject(achieve, submit)
+          else
+            next
           end
-
         end
+        # handle submit end
       end
 
     end

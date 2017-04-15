@@ -22,6 +22,12 @@ class Article < ApplicationRecord
   scope :news, -> { where(:article_type => TYPE_NEWS) }
   scope :solution, -> { where(:article_type => TYPE_SOLUTION) }
 
+  after_create do
+    if self.article_type == TYPE_SOLUTION
+      $achieve_center_client.on_blog_post(self.id)
+    end
+  end
+
   def self.search_columns
     [:title, :content]
   end
