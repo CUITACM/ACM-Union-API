@@ -17,8 +17,7 @@ class Api::V1::ArticlesController < ApplicationController
     optional! :page, default: 1
     optional! :per, default: 10, values: 1..50
 
-    @solutions = Article.solution.order(created_at: :desc)
-      .with_sort(params).with_search(params).with_filters(params)
+    @solutions = Article.solution.with_sort(params).with_search(params).with_filters(params)
     @solutions = @solutions.includes(:user, :tags).page(params[:page]).per(params[:per])
     render json: @solutions, root: 'items', meta: meta_with_page(@solutions)
   end
@@ -31,9 +30,8 @@ class Api::V1::ArticlesController < ApplicationController
   def create
     @article = Article.new
     authorize @article
-    @article.assign_attributes(article_params)
     @article.user_id = current_user.id
-    if @article.save
+    if @article.update_with_tags(params[:tags], article_params)
       render json: @article
     else
       render json: { error_code: 1 }
