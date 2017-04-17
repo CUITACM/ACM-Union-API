@@ -14,6 +14,9 @@ class Api::V1::SpidersController < ApplicationController
   end
 
   def create_account
+    if Account.exists?(oj_name: account_params[:oj_name], user_id: current_user.id)
+      render json: { error_code: 1, message: '账号已存在' } and return
+    end
     @account = Account.new(account_params)
     if @account.save!
       render json: @account
