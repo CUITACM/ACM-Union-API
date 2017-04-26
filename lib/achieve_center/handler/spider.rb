@@ -20,6 +20,7 @@ module AchieveCenter
           )
         end
         ua.save
+        AchieveCenter.logger.debug("ok => #{ua.inspect}")
       end
 
       def self.update_for_subject(achieve, submit)
@@ -55,7 +56,7 @@ module AchieveCenter
           case achieve.achievement_type
           when Achievement::TYPE_AMOUNT
             conditions = achieve.conditions || {}
-            case conditions['type']
+            case conditions['amount_type']
             when Achievement::AMOUNT_TYPE[:accepted]
               update_for_ac_amount(achieve, submit)
             when Achievement::AMOUNT_TYPE[:cf_rating]

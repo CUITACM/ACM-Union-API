@@ -20,6 +20,7 @@ module AchieveCenter
           )
         end
         ua.save
+        AchieveCenter.logger.debug("ok => #{ua.inspect}")
       end
 
       def self.handle(event)
@@ -27,7 +28,7 @@ module AchieveCenter
         return if blog.blank?
         Achievement.by_type(Achievement::TYPE_AMOUNT).find_each do |achieve|
           conditions = achieve.conditions || {}
-          case conditions['type']
+          case conditions['amount_type']
           when Achievement::AMOUNT_TYPE[:blog]
             update_for_blog_amount(achieve, blog)
           else

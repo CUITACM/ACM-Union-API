@@ -17,14 +17,16 @@ end
 $achieve_center_client ||= AchieveCenter::Client.new
 
 
-# Thread.new do
-#   p 'start running AchieveCenter'
-#   begin
-#     while true
-#       $achieve_center_client.run
-#       sleep(2)
-#     end
-#   rescue => ex
-#     Rails.logger.error(ex.message)
-#   end
-# end
+Thread.new do
+  p 'start running AchieveCenter'
+  begin
+    while true
+      process = $achieve_center_client.run
+      if !process
+        sleep(3)
+      end
+    end
+  rescue => ex
+    Rails.logger.error(ex.message)
+  end
+end
