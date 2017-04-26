@@ -49,6 +49,17 @@ class Api::V1::AchievementsController < ApplicationController
     end
   end
 
+  def user_achievements
+    optional! :page, default: 1
+    optional! :per, default: 15, values: 1..100
+    optional! :sort_field, default: :updated_at
+    optional! :sort_order, default: :descend, values: %w(ascend descend)
+
+    @user_achievements = UserAchievement.with_filters(params).with_sort(params)
+    @user_achievements = @user_achievements.page(params[:page]).per(params[:per])
+    render json: @user_achievements, root: 'items', meta: meta_with_page(@user_achievements)
+  end
+
   private
 
   def achievement_params

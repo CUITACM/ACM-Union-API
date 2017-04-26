@@ -47,6 +47,7 @@ Rails.application.routes.draw do
       post    '/achievements',                to: 'achievements#create'
       put     '/achievements/:id',            to: 'achievements#update'
       delete  '/achievements/:id',            to: 'achievements#destroy'
+      get     '/user_achievements',           to: 'achievements#user_achievements'
 
       # honors
       get     '/honors',                      to: 'honors#index'
