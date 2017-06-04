@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       # auth
       get     '/auth/token',                  to: 'auth#token'
+      post    '/auth/register',               to: 'auth#register'
 
       # users
       get     '/users',                       to: 'users#index'
