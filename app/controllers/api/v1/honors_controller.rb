@@ -71,8 +71,10 @@ class Api::V1::HonorsController < ApplicationController
   end
 
   def honor_params
-    params.permit(:contest_name, :contest_level, :description, :team_name, :remove_images, images: [])
-      .except(:images, :remove_images)
+    params.permit(
+      :contest_name, :contest_level, :contest_date, :description,
+      :team_name, :members, :remove_images, images: []
+    ).except(:images, :remove_images)
   end
 
 end

@@ -1,6 +1,6 @@
 class HonorSerializer < ActiveModel::Serializer
-  attributes :id, :contest_name, :contest_level
-  attributes :team_name, :description
+  attributes :id, :contest_name, :contest_level, :contest_date
+  attributes :team_name, :members, :description
 
   attribute :contest_level do
     object.contest_level.try(:to_s)
